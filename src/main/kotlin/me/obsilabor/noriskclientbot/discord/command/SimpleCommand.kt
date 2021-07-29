@@ -1,7 +1,6 @@
 package me.obsilabor.noriskclientbot.discord.command
 
 import dev.kord.common.annotation.KordPreview
-import dev.kord.core.behavior.interaction.edit
 import dev.kord.core.behavior.interaction.followUp
 import dev.kord.core.entity.interaction.CommandInteraction
 import me.obsilabor.noriskclientbot.extensions.guild
