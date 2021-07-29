@@ -17,7 +17,7 @@ abstract class SimpleCommand(
 ) {
 
     override suspend fun handle(interaction: CommandInteraction) {
-        val message = interaction.acknowledgePublic().followUp {
+        interaction.acknowledgePublic().followUp {
             content = "_ _"
         }
         handleLegacy(LegacyInteraction(
