@@ -18,7 +18,7 @@ abstract class SimpleCommand(
 
     override suspend fun handle(interaction: CommandInteraction) {
         val message = interaction.acknowledgePublic().followUp {
-            content = "attempt to handle legacy command as an slash command.."
+            content = "_ _"
         }
         handleLegacy(LegacyInteraction(
             null,
@@ -27,9 +27,6 @@ abstract class SimpleCommand(
             interaction.channel,
             emptyList()
         ))
-        message.edit {
-            content = "executed legacy command:"
-        }
     }
 
     abstract suspend fun handleLegacy(interaction: LegacyInteraction)
