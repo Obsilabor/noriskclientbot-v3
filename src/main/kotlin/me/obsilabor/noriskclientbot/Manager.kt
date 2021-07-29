@@ -1,14 +1,15 @@
 package me.obsilabor.noriskclientbot
 
-import com.typesafe.config.ConfigFactory
 import dev.kord.common.annotation.KordPreview
 import dev.kord.common.entity.Snowflake
 import dev.kord.core.Kord
-import dev.kord.core.behavior.channel.MessageChannelBehavior
 import dev.kord.core.entity.Guild
-import dev.kord.core.event.gateway.ReadyEvent
-import dev.kord.core.on
 import me.obsilabor.noriskclientbot.config.ConfigManager
+import me.obsilabor.noriskclientbot.discord.command.CommandManager
+import me.obsilabor.noriskclientbot.discord.command.commands.AnotherLegacyCommand
+import me.obsilabor.noriskclientbot.discord.command.commands.AnotherSlashCommand
+import me.obsilabor.noriskclientbot.discord.listener.LegacyCommandListener
+import me.obsilabor.noriskclientbot.logging.Logger
 
 @KordPreview
 suspend fun main() {
@@ -21,15 +22,17 @@ object NoRiskClientBot {
 
     lateinit var nrcGuild: Guild
 
+    val logger = Logger(System.out)
+
     @KordPreview
     suspend fun start() {
         println("Starting...")
         client = Kord(ConfigManager.noRiskClientBotConfig.token ?: writeDefaultsAndExit())
         nrcGuild = client.getGuild(Snowflake(ConfigManager.noRiskClientBotConfig.noriskClientGuildId ?: writeDefaultsAndExit()))!!
-        client.on<ReadyEvent> {
-            val jo = nrcGuild.getChannel(Snowflake("774273183804948500")) as MessageChannelBehavior
-            jo.createMessage("hi bin back")
-        }
+        AnotherLegacyCommand.register()
+        AnotherSlashCommand.register()
+        CommandManager.init()
+        LegacyCommandListener().register(client)
         client.login()
     }
 
