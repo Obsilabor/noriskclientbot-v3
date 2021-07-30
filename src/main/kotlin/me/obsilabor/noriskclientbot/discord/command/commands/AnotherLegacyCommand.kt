@@ -10,6 +10,7 @@ object AnotherLegacyCommand : SimpleCommand(
     commandDescription = "Just another legacy command"
 ) {
     override suspend fun handleLegacy(interaction: LegacyInteraction) {
+        error("you got nixxed!")
         interaction.channel.createMessage("!command support ;)")
     }
 }

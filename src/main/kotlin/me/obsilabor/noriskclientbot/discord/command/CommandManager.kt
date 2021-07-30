@@ -11,8 +11,15 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import me.obsilabor.noriskclientbot.NoRiskClientBot
 import me.obsilabor.noriskclientbot.NoRiskClientBot.logger
 import me.obsilabor.noriskclientbot.extensions.client
+import me.obsilabor.noriskclientbot.logging.error.Error
+import me.obsilabor.noriskclientbot.systems.OperatingSystem
+import me.obsilabor.noriskclientbot.systems.SystemInfo
+import me.obsilabor.noriskclientbot.utils.Branding
+import java.util.*
+import kotlin.collections.HashMap
 
 @KordPreview
 object CommandManager {
@@ -53,10 +60,27 @@ object CommandManager {
         client.on<InteractionCreateEvent> {
             if(interaction is CommandInteraction) {
                 val commandInteraction = interaction as CommandInteraction
-                if(slashCommands.containsKey(commandInteraction.command.rootName)) {
-                    slashCommands[(interaction as CommandInteraction).command.rootName]?.handle(interaction as CommandInteraction)
-                } else {
-                    otherCommands[(interaction as CommandInteraction).command.rootName]?.handle(interaction as CommandInteraction)
+                kotlin.runCatching {
+                    if(slashCommands.containsKey(commandInteraction.command.rootName)) {
+                        slashCommands[(interaction as CommandInteraction).command.rootName]?.handle(interaction as CommandInteraction)
+                    } else {
+                        otherCommands[(interaction as CommandInteraction).command.rootName]?.handle(interaction as CommandInteraction)
+                    }
+                }.onFailure {
+                    logger.uploadErrorAndCreateEmbed(
+                        Error(
+                        "${Branding.majorVersion} (${Branding.version})",
+                        Branding.brand,
+                        SystemInfo(
+                            OperatingSystem.running,
+                            Runtime.version().toString()
+                        ),
+                        Date().toString(),
+                        "Executing advanced command (Interaction: ${interaction})",
+                        it
+                    ),
+                        interaction.channel
+                    )
                 }
             }
         }

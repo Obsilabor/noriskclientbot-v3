@@ -36,15 +36,20 @@ object NoRiskClientBot {
         client.login()
     }
 
-    private fun writeDefaultsAndExit(): String {
+    fun writeDefaultsAndExit(): String {
         ConfigManager.ConfigFile("./noriskclientbot.conf").writeText("""
             token: insert_token_here
             mongoConfig {
-                host: localhost
-                port: 27017
-                database: database
-                username: admin
-                password: password
+                host=localhost
+                port=27017
+                database=database
+                username=admin
+                password=password
+            }
+            wastebinClientConfig {
+                token=insert_token_here
+                serverHostName="https://example.com"
+                serverPort=1870
             }
             noriskClientGuildId: id
         """.trimIndent())

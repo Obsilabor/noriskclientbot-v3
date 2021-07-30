@@ -1,5 +1,9 @@
 package me.obsilabor.noriskclientbot.logging
 
+import dev.kord.core.behavior.channel.MessageChannelBehavior
+import dev.kord.core.behavior.channel.createEmbed
+import me.obsilabor.noriskclientbot.http.WastebinClient
+import me.obsilabor.noriskclientbot.logging.error.Error
 import java.io.PrintStream
 import java.lang.Exception
 import java.text.SimpleDateFormat
@@ -32,12 +36,36 @@ class Logger(val out: PrintStream) {
         return returned
     }
 
+    suspend fun uploadError(error: Error): String {
+        return WastebinClient.runClient(arrayOf("""
+        Date: ${error.date}
+        Context: ${error.context}
+        Thread: ${Thread.currentThread()}
+        Bot attributes:
+            Version: ${error.botVersion}
+            Brand: ${error.botBrand}
+        System info:
+            OS: ${error.system.operatingSystem}
+            Java Version: ${error.system.javaVersion}
+        Stacktrace: 
+        ${error.throwable.stackTraceToString()}
+        """.trimIndent())) ?: "FAILURE XD"
+    }
+
+    suspend fun uploadErrorAndCreateEmbed(error: Error, channel: MessageChannelBehavior) {
+        val url = uploadError(error)
+        channel.createEmbed {
+            title = ":warning: **A critical error occurred**"
+            description = "Send [this]($url) link to an developer of the bot"
+        }
+    }
+
     fun log(level: Level, message: String): String {
-        if(level.isEnabled) {
+        return if(level.isEnabled) {
             out.println("[${SimpleDateFormat("hh:MM:ss").format(Date())}] [${Thread.currentThread().threadGroup.name}/${level.name}]: $message")
-            return message
+            message
         } else {
-            return "The logger level ${level.name} is disabled"
+            "The logger level ${level.name} is disabled"
         }
     }
 
