@@ -6,8 +6,8 @@ import dev.kord.core.Kord
 import dev.kord.core.entity.Guild
 import me.obsilabor.noriskclientbot.config.ConfigManager
 import me.obsilabor.noriskclientbot.discord.command.CommandManager
-import me.obsilabor.noriskclientbot.discord.command.commands.AnotherLegacyCommand
-import me.obsilabor.noriskclientbot.discord.command.commands.AnotherSlashCommand
+import me.obsilabor.noriskclientbot.discord.command.commands.Random
+import me.obsilabor.noriskclientbot.discord.command.commands.Download
 import me.obsilabor.noriskclientbot.discord.listener.LegacyCommandListener
 import me.obsilabor.noriskclientbot.logging.Logger
 
@@ -29,8 +29,8 @@ object NoRiskClientBot {
         println("Starting...")
         client = Kord(ConfigManager.noRiskClientBotConfig.token ?: writeDefaultsAndExit())
         nrcGuild = client.getGuild(Snowflake(ConfigManager.noRiskClientBotConfig.noriskClientGuildId ?: writeDefaultsAndExit()))!!
-        AnotherLegacyCommand.register()
-        AnotherSlashCommand.register()
+        Download.register()
+        Random.register()
         CommandManager.init()
         LegacyCommandListener().register(client)
         client.login()

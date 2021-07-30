@@ -4,9 +4,11 @@ import dev.kord.common.annotation.KordPreview
 import dev.kord.core.behavior.interaction.followUp
 import dev.kord.core.entity.interaction.CommandInteraction
 import me.obsilabor.noriskclientbot.discord.command.AdvancedCommand
+import me.obsilabor.noriskclientbot.discord.command.LegacyInteraction
+import me.obsilabor.noriskclientbot.discord.command.SimpleCommand
 
 @KordPreview
-object AnotherSlashCommand : AdvancedCommand(
+object Random : SimpleCommand(
     commandName = "random",
     commandDescription = "Random survival quotes"
 ) {
@@ -33,10 +35,9 @@ object AnotherSlashCommand : AdvancedCommand(
         "https://cdn.discordapp.com/attachments/777539157903671316/858278556474540033/unknown.png"
     )
 
-    override suspend fun handle(interaction: CommandInteraction) {
-        //TODO implement obsilabor.me survival quote generator
-        interaction.acknowledgePublic().followUp {
-            content = quotes.random()
-        }
+    override suspend fun handleLegacy(interaction: LegacyInteraction) {
+        interaction.channel.createMessage(quotes.random())
     }
+
+
 }
