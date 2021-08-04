@@ -26,7 +26,7 @@ The client is currently offline so you cannot download it
 
 ### 🚀 Contributing
 
-If you want to contribute to the bot, just fork the repository and then clone it with `git clone https://github.com/<yourname>/NoRiskClientBotRemastered.git`.
+If you want to contribute to the bot, just fork the repository and then clone it with `git clone https://github.com/<yourname>/noriskclientbot-v3.git`.
 If you're done with your changes, just open a pull request and request a review. As reward for your contribution, you'll get a rank on the discord server.
 
 💡 **Ideas or bug reports are also a contribution, just open a issue**
