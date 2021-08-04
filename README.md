@@ -35,3 +35,4 @@ If you're done with your changes, just open a pull request and request a review.
 
 - Automatic help
 - Cape Stealer
+- Giveaway system
