@@ -30,3 +30,8 @@ If you want to contribute to the bot, just fork the repository and then clone it
 If you're done with your changes, just open a pull request and request a review. As reward for your contribution, you'll get a rank on the discord server.
 
 💡 **Ideas or bug reports are also a contribution, just open a issue**
+
+### 📋 TODO
+
+- Automatic help
+- Cape Stealer
