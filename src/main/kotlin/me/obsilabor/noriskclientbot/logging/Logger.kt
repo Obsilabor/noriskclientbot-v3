@@ -62,7 +62,7 @@ class Logger(val out: PrintStream) {
 
     fun log(level: Level, message: String): String {
         return if(level.isEnabled) {
-            out.println("[${SimpleDateFormat("hh:MM:ss").format(Date())}] [${Thread.currentThread().threadGroup.name}/${level.name}]: $message")
+            out.println("[${SimpleDateFormat("HH:MM:ss").format(Date())}] [${Thread.currentThread().threadGroup.name}/${level.name}]: $message")
             message
         } else {
             "The logger level ${level.name} is disabled"

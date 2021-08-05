@@ -10,6 +10,7 @@ import me.obsilabor.noriskclientbot.discord.command.commands.Cape
 import me.obsilabor.noriskclientbot.discord.command.commands.Random
 import me.obsilabor.noriskclientbot.discord.command.commands.Download
 import me.obsilabor.noriskclientbot.discord.listener.LegacyCommandListener
+import me.obsilabor.noriskclientbot.discord.listener.MessageListener
 import me.obsilabor.noriskclientbot.logging.Logger
 
 @KordPreview
@@ -34,6 +35,7 @@ object NoRiskClientBot {
         Random.register()
         Cape.register()
         CommandManager.init()
+        MessageListener().register(client)
         LegacyCommandListener().register(client)
         client.login()
     }
@@ -54,6 +56,7 @@ object NoRiskClientBot {
                 serverPort=1870
             }
             noriskClientGuildId: id
+            logChannelId: id
         """.trimIndent())
         error("Configure the application before running it")
     }
