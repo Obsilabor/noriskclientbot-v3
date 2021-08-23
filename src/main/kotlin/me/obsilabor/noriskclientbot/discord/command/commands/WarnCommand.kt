@@ -43,24 +43,31 @@ object WarnCommand : AdvancedCommand(
             }
             val warn = Warn(reason)
             println("hi1")
-            val origin = MongoDatabase.memberInfo.findOne { MemberInfo::id eq member.id.asString }
+
             println("hi2")
-            var memberInfo = origin
+            val memberInfo = MongoDatabase.memberInfo.findOne { MemberInfo::id eq member.id.asString }
+            var toInsert: MemberInfo? = null
             if(memberInfo == null) {
                 println("hi2.1")
-                memberInfo = MemberInfo(
+                toInsert = MemberInfo(
                     member.id.asString,
                     arrayListOf(warn),
                     null
                 )
             } else {
                 println("hi2.5")
-                memberInfo.warns.add(warn)
+                val warns = memberInfo.warns
+                warns.add(warn)
+                toInsert = MemberInfo(
+                    member.id.asString,
+                    warns,
+                    memberInfo.connectedMinecraftAccount
+                )
                 println("hi2.6")
-                MongoDatabase.memberInfo.deleteOne(origin!!.json.bson)
+                MongoDatabase.memberInfo.deleteOne("{\"_id\": \"${member.id.asString}\"}".json.bson)
                 println("hi2.7")
             }
-            MongoDatabase.memberInfo.insertOne(memberInfo)
+            MongoDatabase.memberInfo.insertOne(toInsert)
             println("hi3")
             logger.debug("Trying to dm ${member.username}#${member.discriminator}")
             println("hi4")
@@ -73,7 +80,7 @@ object WarnCommand : AdvancedCommand(
             }
             logger.info("**${member.username}#${member.discriminator}** got warned by **${interaction.member().username}#${interaction.member().discriminator}** for `${reason}`")
             println("hi5")
-            if(memberInfo.warns.size >= 3) {
+            if(toInsert.warns.size >= 3) {
                 member.ban {
                     this.reason = "$reason (3-Warns)"
                 }
