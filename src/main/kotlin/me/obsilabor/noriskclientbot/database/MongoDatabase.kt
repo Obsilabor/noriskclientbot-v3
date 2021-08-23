@@ -1,6 +1,8 @@
 package me.obsilabor.noriskclientbot.database
 
 import com.mongodb.client.MongoCollection
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import me.obsilabor.noriskclientbot.NoRiskClientBot.logger
 import me.obsilabor.noriskclientbot.config.ConfigManager
 import me.obsilabor.noriskclientbot.data.MemberInfo
@@ -8,6 +10,8 @@ import net.axay.blueutils.database.DatabaseLoginInformation
 import net.axay.blueutils.database.mongodb.MongoDB
 
 object MongoDatabase {
+
+    val mongoScope = CoroutineScope(Dispatchers.IO)
 
     suspend fun openConnection() {
         logger.debug("Creating mongodb connection...")

@@ -6,6 +6,7 @@ import dev.kord.core.behavior.ban
 import dev.kord.core.behavior.interaction.followUp
 import dev.kord.core.entity.Member
 import dev.kord.core.entity.interaction.CommandInteraction
+import kotlinx.coroutines.launch
 import me.obsilabor.noriskclientbot.NoRiskClientBot
 import me.obsilabor.noriskclientbot.NoRiskClientBot.logger
 import me.obsilabor.noriskclientbot.data.MemberInfo
@@ -44,20 +45,22 @@ object WarnCommand : AdvancedCommand(
             }
             val warn = Warn(reason)
             val memberInfo = MongoDatabase.memberInfo.findOne { MemberInfo::id eq memberId }
-            if(memberInfo == null) {
-                MongoDatabase.memberInfo.insertOne(MemberInfo(
-                    member.id.asString,
-                    arrayListOf(warn),
-                    null
-                ))
-            } else {
-                val warns = memberInfo.warns
-                warns.add(warn)
-                MongoDatabase.memberInfo.replaceOne("{\"_id\": \"${memberId}\"}".json.bson, MemberInfo(
-                    memberId,
-                    warns,
-                    memberInfo.connectedMinecraftAccount
-                ))
+            MongoDatabase.mongoScope.launch {
+                if(memberInfo == null) {
+                    MongoDatabase.memberInfo.insertOne(MemberInfo(
+                        member.id.asString,
+                        arrayListOf(warn),
+                        null
+                    ))
+                } else {
+                    val warns = memberInfo.warns
+                    warns.add(warn)
+                    MongoDatabase.memberInfo.replaceOne(memberInfo.json.bson, MemberInfo(
+                        memberId,
+                        warns,
+                        memberInfo.connectedMinecraftAccount
+                    ))
+                }
             }
             logger.debug("Trying to dm ${member.username}#${member.discriminator}")
             kotlin.runCatching {
