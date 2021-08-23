@@ -43,35 +43,23 @@ object WarnCommand : AdvancedCommand(
                 content = "${member.mention} got warned!"
             }
             val warn = Warn(reason)
-            println("hi1")
-
-            println("hi2")
             val memberInfo = MongoDatabase.memberInfo.findOne { MemberInfo::id eq memberId }
-            val toInsert: MemberInfo?
             if(memberInfo == null) {
-                println("hi2.1")
-                toInsert = MemberInfo(
+                MongoDatabase.memberInfo.insertOne(MemberInfo(
                     member.id.asString,
                     arrayListOf(warn),
                     null
-                )
+                ))
             } else {
-                println("hi2.5")
                 val warns = memberInfo.warns
                 warns.add(warn)
-                toInsert = MemberInfo(
+                MongoDatabase.memberInfo.replaceOne("{\"_id\": \"${memberId}\"}".json.bson, MemberInfo(
                     memberId,
                     warns,
                     memberInfo.connectedMinecraftAccount
-                )
-                println("hi2.6")
-                MongoDatabase.memberInfo.deleteOne("{\"_id\": \"${memberId}\"}".json.bson)
-                println("hi2.7")
+                ))
             }
-            MongoDatabase.memberInfo.insertOne(toInsert)
-            println("hi3")
             logger.debug("Trying to dm ${member.username}#${member.discriminator}")
-            println("hi4")
             kotlin.runCatching {
                 member.getDmChannel().createMessage("You got **warned** on ${interaction.guild().name} for `$reason`!")
                 println("hi4.1")
@@ -81,7 +69,7 @@ object WarnCommand : AdvancedCommand(
             }
             logger.info("**${member.username}#${member.discriminator}** got warned by **${interaction.member().username}#${interaction.member().discriminator}** for `${reason}`")
             println("hi5")
-            if(toInsert.warns.size >= 3) {
+            if(MongoDatabase.memberInfo.findOne { MemberInfo::id eq memberId }!!.warns.size >= 3) {
                 member.ban {
                     this.reason = "$reason (3-Warns)"
                 }
