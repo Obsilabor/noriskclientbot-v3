@@ -24,7 +24,26 @@ object CowsayCommand : AdvancedCommand(
                 line+="-"
                 space+=" "
             }
-            content = """
+            if(text.lowercase().contains("linux")) {
+                content = """
+                    ```
+                        $line
+                       / $text \
+                       \ $space /
+                        $line
+                           \
+                            \
+                              .--.
+                             |o_o |
+                             |:_/ |
+                            //   \ \
+                           (|     | )
+                          /'\_   _/`\
+                          \___)=(___/
+                    ```
+                """.trimIndent()
+            } else {
+                content = """
                 ```
                  $line
                 / $text \
@@ -37,6 +56,7 @@ object CowsayCommand : AdvancedCommand(
                              ||     ||
                 ```
             """.trimIndent()
+            }
         }
     }
 }
