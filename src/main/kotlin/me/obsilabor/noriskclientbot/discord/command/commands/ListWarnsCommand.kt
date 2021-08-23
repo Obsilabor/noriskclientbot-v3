@@ -8,6 +8,7 @@ import dev.kord.core.entity.Member
 import dev.kord.core.entity.interaction.CommandInteraction
 import dev.kord.rest.Image
 import dev.kord.rest.builder.interaction.embed
+import kotlinx.coroutines.launch
 import me.obsilabor.noriskclientbot.data.MemberInfo
 import me.obsilabor.noriskclientbot.database.MongoDatabase
 import me.obsilabor.noriskclientbot.discord.command.AdvancedCommand
@@ -44,15 +45,17 @@ object ListWarnsCommand : AdvancedCommand(
                     thumbnail {
                         url = interaction.guild().getIconUrl(Image.Format.GIF)!!
                     }
-                    val memberInfo = MongoDatabase.memberInfo.findOne { MemberInfo::id eq member.id.asString }
-                    if(memberInfo == null) {
-                        description = "This member has no warnings."
-                    } else {
-                        for (warning in memberInfo.warns) {
-                            field {
-                                inline = true
-                                name = warning.reason
-                                value = "Warned on the (${SimpleDateFormat("dd.MM.yyyy").format(Date(warning.timestamp))})[https://obsilabor.me]"
+                    MongoDatabase.mongoScope.launch {
+                        val memberInfo = MongoDatabase.memberInfo.findOne { MemberInfo::id eq member.id.asString }
+                        if(memberInfo == null) {
+                            description = "This member has no warnings."
+                        } else {
+                            for (warning in memberInfo.warns) {
+                                field {
+                                    inline = true
+                                    name = warning.reason
+                                    value = "Warned on the (${SimpleDateFormat("dd.MM.yyyy").format(Date(warning.timestamp))})[https://obsilabor.me]"
+                                }
                             }
                         }
                     }
