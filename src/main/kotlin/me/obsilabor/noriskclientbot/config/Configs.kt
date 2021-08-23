@@ -8,7 +8,8 @@ class NoRiskClientBotConfig(
     val mongoConfig: MongoConfig? = null,
     val wastebinClientConfig: WastebinClientConfig? = null,
     val noriskClientGuildId: String? = null,
-    val logChannelId: String? = null
+    val logChannelId: String? = null,
+    val mutedRoleId: String? = null
 )
 
 @Serializable

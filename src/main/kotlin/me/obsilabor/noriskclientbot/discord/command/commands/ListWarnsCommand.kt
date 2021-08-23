@@ -7,8 +7,7 @@ import dev.kord.core.behavior.interaction.followUp
 import dev.kord.core.entity.Member
 import dev.kord.core.entity.interaction.CommandInteraction
 import dev.kord.rest.Image
-import dev.kord.rest.builder.interaction.embed
-import kotlinx.coroutines.launch
+import dev.kord.rest.builder.message.create.embed
 import me.obsilabor.noriskclientbot.data.MemberInfo
 import me.obsilabor.noriskclientbot.database.MongoDatabase
 import me.obsilabor.noriskclientbot.discord.command.AdvancedCommand
@@ -53,7 +52,7 @@ object ListWarnsCommand : AdvancedCommand(
                             field {
                                 inline = true
                                 name = warning.reason
-                                value = "Warned on the (${SimpleDateFormat("dd.MM.yyyy").format(Date(warning.timestamp))})[https://obsilabor.me]"
+                                value = "Warned on the __${SimpleDateFormat("dd.MM.yyyy").format(Date(warning.timestamp))}__"
                             }
                         }
                     }

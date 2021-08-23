@@ -37,6 +37,10 @@ object NoRiskClientBot {
         BanCommand.register()
         WarnCommand.register()
         ListWarnsCommand.register()
+        KickCommand.register()
+        MuteCommand.register()
+        UnmuteCommand.register()
+        CowsayCommand.register()
         CommandManager.init()
         MessageListener().register(client)
         LegacyCommandListener().register(client)
@@ -60,6 +64,7 @@ object NoRiskClientBot {
             }
             noriskClientGuildId: id
             logChannelId: id
+            mutedRoleId: id
         """.trimIndent())
         error("Configure the application before running it")
     }
