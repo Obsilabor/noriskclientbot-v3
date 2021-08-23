@@ -56,7 +56,9 @@ object WarnCommand : AdvancedCommand(
             } else {
                 println("hi2.5")
                 memberInfo.warns.add(warn)
+                println("hi2.6")
                 MongoDatabase.memberInfo.deleteOne(origin!!.json.bson)
+                println("hi2.7")
             }
             MongoDatabase.memberInfo.insertOne(memberInfo)
             println("hi3")
