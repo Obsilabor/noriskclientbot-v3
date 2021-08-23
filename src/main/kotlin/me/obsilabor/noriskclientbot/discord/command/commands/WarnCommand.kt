@@ -61,12 +61,16 @@ object WarnCommand : AdvancedCommand(
             MongoDatabase.memberInfo.insertOne(memberInfo)
             println("hi3")
             logger.debug("Trying to dm ${member.username}#${member.discriminator}")
+            println("hi4")
             kotlin.runCatching {
                 member.getDmChannel().createMessage("You got **warned** on ${interaction.guild().name} for `$reason`!")
+                println("hi4.1")
             }.onFailure {
                 logger.warn("Couldn't dm ${member.username}#${member.discriminator}")
+                println("hi4.5")
             }
             logger.info("**${member.username}#${member.discriminator}** got warned by **${interaction.member().username}#${interaction.member().discriminator}** for `${reason}`")
+            println("hi5")
             if(memberInfo.warns.size >= 3) {
                 member.ban {
                     this.reason = "$reason (3-Warns)"
