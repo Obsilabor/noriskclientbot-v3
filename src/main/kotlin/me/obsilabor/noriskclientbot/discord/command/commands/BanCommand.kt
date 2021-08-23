@@ -14,7 +14,7 @@ import me.obsilabor.noriskclientbot.extensions.member
 import me.obsilabor.noriskclientbot.extensions.sendNoPermissions
 
 @KordPreview
-object Ban : AdvancedCommand(
+object BanCommand : AdvancedCommand(
     commandName = "ban",
     commandDescription = "Ban any user!",
     {

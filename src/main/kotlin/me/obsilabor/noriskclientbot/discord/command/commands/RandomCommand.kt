@@ -8,7 +8,7 @@ import me.obsilabor.noriskclientbot.discord.command.LegacyInteraction
 import me.obsilabor.noriskclientbot.discord.command.SimpleCommand
 
 @KordPreview
-object Random : SimpleCommand(
+object RandomCommand : SimpleCommand(
     commandName = "random",
     commandDescription = "Random survival quotes"
 ) {

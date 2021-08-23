@@ -4,5 +4,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Warn(
-    val reason: String
+    val reason: String,
+    val timestamp: Long
 )

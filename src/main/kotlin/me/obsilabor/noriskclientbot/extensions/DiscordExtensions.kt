@@ -40,9 +40,8 @@ suspend fun MessageChannelBehavior.sendNoPermissions(member: Member) {
             icon = nrcGuild.getIconUrl(Image.Format.GIF)!!
             text = nrcGuild.name
         }
-        footer {
-            icon = nrcGuild.getIconUrl(Image.Format.GIF)!!
-            text = nrcGuild.name
+        thumbnail {
+            url = nrcGuild.getIconUrl(Image.Format.GIF)!!
         }
         description = "${member.mention}, sorry but you don't have permission to perform that action!"
     }

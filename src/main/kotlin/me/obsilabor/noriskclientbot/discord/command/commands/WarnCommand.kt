@@ -43,7 +43,7 @@ object WarnCommand : AdvancedCommand(
             interaction.acknowledgePublic().followUp {
                 content = "${member.mention} got warned!"
             }
-            val warn = Warn(reason)
+            val warn = Warn(reason, System.currentTimeMillis())
             val memberInfo = MongoDatabase.memberInfo.findOne { MemberInfo::id eq memberId }
             MongoDatabase.mongoScope.launch {
                 if(memberInfo == null) {
@@ -73,11 +73,13 @@ object WarnCommand : AdvancedCommand(
                 member.ban {
                     this.reason = "$reason (3-Warns)"
                 }
-                MongoDatabase.memberInfo.replaceOne(memberInfo!!.json.bson, MemberInfo(
-                    memberId,
-                    arrayListOf(),
-                    memberInfo.connectedMinecraftAccount
-                ))
+                MongoDatabase.mongoScope.launch {
+                    MongoDatabase.memberInfo.replaceOne(memberInfo!!.json.bson, MemberInfo(
+                        memberId,
+                        arrayListOf(),
+                        memberInfo.connectedMinecraftAccount
+                    ))
+                }
                 logger.info("**${member.username}#${member.discriminator}** got banned by **${interaction.member().username}#${interaction.member().discriminator}** for `${reason}`")
             }
 

@@ -1,6 +1,5 @@
 package me.obsilabor.noriskclientbot.data
 
-import dev.kord.common.entity.Snowflake
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

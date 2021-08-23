@@ -7,9 +7,10 @@ import dev.kord.core.behavior.channel.createEmbed
 import dev.kord.rest.Image
 import me.obsilabor.noriskclientbot.discord.command.LegacyInteraction
 import me.obsilabor.noriskclientbot.discord.command.SimpleCommand
+import me.obsilabor.noriskclientbot.extensions.guild
 
 @KordPreview
-object Cape : SimpleCommand(
+object CapeCommand : SimpleCommand(
     commandName = "cape",
     commandDescription = "Get a description how to upload your custom cape"
 ) {
@@ -21,9 +22,8 @@ object Cape : SimpleCommand(
                 icon = interaction.guild?.getIconUrl(Image.Format.GIF)!!
                 text = interaction.guild.name
             }
-            footer {
-                icon = interaction.guild?.getIconUrl(Image.Format.GIF)!!
-                text = interaction.guild.name
+            thumbnail {
+                url = interaction.guild?.getIconUrl(Image.Format.GIF)!!
             }
             field {
                 name = "Folgende Schritte erklären dir wie du korrekt ein Cape einreichst!"
