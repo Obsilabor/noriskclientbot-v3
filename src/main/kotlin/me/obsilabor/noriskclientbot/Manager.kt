@@ -5,7 +5,9 @@ import dev.kord.common.entity.Snowflake
 import dev.kord.core.Kord
 import dev.kord.core.entity.Guild
 import me.obsilabor.noriskclientbot.config.ConfigManager
+import me.obsilabor.noriskclientbot.database.MongoDatabase
 import me.obsilabor.noriskclientbot.discord.command.CommandManager
+import me.obsilabor.noriskclientbot.discord.command.commands.Ban
 import me.obsilabor.noriskclientbot.discord.command.commands.Cape
 import me.obsilabor.noriskclientbot.discord.command.commands.Random
 import me.obsilabor.noriskclientbot.discord.command.commands.Download
@@ -31,9 +33,11 @@ object NoRiskClientBot {
         println("Starting...")
         client = Kord(ConfigManager.noRiskClientBotConfig.token ?: writeDefaultsAndExit())
         nrcGuild = client.getGuild(Snowflake(ConfigManager.noRiskClientBotConfig.noriskClientGuildId ?: writeDefaultsAndExit()))!!
+        MongoDatabase.openConnection()
         Download.register()
         Random.register()
         Cape.register()
+        Ban.register()
         CommandManager.init()
         MessageListener().register(client)
         LegacyCommandListener().register(client)

@@ -5,12 +5,18 @@ import dev.kord.core.entity.Message
 object MassPingDetection {
 
     fun Message.getPingCount(): Int {
-        val toCount = "<@!"
-        val temp: List<String> = content.split(" ")
         var count = 0
-        for (i in temp.indices) {
-            if (toCount == temp[i]) count++
+        if(content.length > 7) {
+            for((i, char) in content.toCharArray().withIndex()) {
+                if(char == '!') {
+                    if(content.toCharArray()[i-1] == '@') {
+                        if(content.toCharArray()[i-2] == '<') {
+                            count++
+                        }
+                    }
+                }
+            }
         }
-        return count;
+        return count
     }
 }
