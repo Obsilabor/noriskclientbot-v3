@@ -34,10 +34,10 @@ object ListWarnsCommand : AdvancedCommand(
     override suspend fun handle(interaction: CommandInteraction) {
         if(interaction.member().hasPermission(Permission.KickMembers)) {
             val member = interaction.command.options["member"]?.value as Member
-            var memberInfo: MemberInfo? = null
+            val memberInfo = MongoDatabase.memberInfo.findOne { MemberInfo::id eq member.id.asString }
             interaction.acknowledgePublic().followUp {
                 embed {
-                    title = "Warns from ${member.mention}"
+                    title = "Warns from ${member.username}#${member.discriminator}"
                     color = Color(0, 251, 255)
                     footer {
                         icon = interaction.guild().getIconUrl(Image.Format.GIF)!!
@@ -46,13 +46,10 @@ object ListWarnsCommand : AdvancedCommand(
                     thumbnail {
                         url = interaction.guild().getIconUrl(Image.Format.GIF)!!
                     }
-                    MongoDatabase.mongoScope.launch {
-                        memberInfo = MongoDatabase.memberInfo.findOne { MemberInfo::id eq member.id.asString }
-                    }
                     if(memberInfo == null) {
                         description = "This member has no warnings."
                     } else {
-                        for (warning in memberInfo!!.warns) {
+                        for (warning in memberInfo.warns) {
                             field {
                                 inline = true
                                 name = warning.reason
