@@ -43,13 +43,13 @@ object WarnCommand : AdvancedCommand(
             }
             val warn = Warn(reason)
             println("hi1")
-            val origin = MongoDatabase.memberInfo.findOne { MemberInfo::id eq member.id }
+            val origin = MongoDatabase.memberInfo.findOne { MemberInfo::id eq member.id.asString }
             println("hi2")
             var memberInfo = origin
             if(memberInfo == null) {
                 println("hi2.1")
                 memberInfo = MemberInfo(
-                    member.id,
+                    member.id.asString,
                     arrayListOf(warn),
                     null
                 )

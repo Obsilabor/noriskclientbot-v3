@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class MemberInfo(
-    @SerialName("_id") val id: Snowflake,
+    @SerialName("_id") val id: String,
     var warns: ArrayList<Warn>,
     var connectedMinecraftAccount: MinecraftAccount?,
 )
