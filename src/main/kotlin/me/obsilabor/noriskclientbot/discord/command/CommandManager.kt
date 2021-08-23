@@ -52,12 +52,13 @@ object CommandManager {
             logger.debug("Registered on guilds!")
         }
         client.on<GuildCreateEvent> {
+            val guild = this.guild
             commandScope.launch {
                 logger.debug("Cleaning up ${guild.name}")
-                this.guild.cleanupCommands()
+                guild.cleanupCommands()
                 logger.debug("Registering commands for ${guild.name}")
-                this.guild.registerCommands()
-                this.guild.editSelfNickname("NoRiskClientBot :3")
+                guild.registerCommands()
+                guild.editSelfNickname("NoRiskClientBot :3")
                 logger.info("${guild.name} is ready")
             }
         }
