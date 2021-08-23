@@ -47,16 +47,19 @@ object WarnCommand : AdvancedCommand(
             println("hi2")
             var memberInfo = origin
             if(memberInfo == null) {
+                println("hi2.1")
                 memberInfo = MemberInfo(
                     member.id,
                     arrayListOf(warn),
                     null
                 )
             } else {
+                println("hi2.5")
                 memberInfo.warns.add(warn)
                 MongoDatabase.memberInfo.deleteOne(origin!!.json.bson)
             }
             MongoDatabase.memberInfo.insertOne(memberInfo)
+            println("hi3")
             logger.debug("Trying to dm ${member.username}#${member.discriminator}")
             kotlin.runCatching {
                 member.getDmChannel().createMessage("You got **warned** on ${interaction.guild().name} for `$reason`!")
