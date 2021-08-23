@@ -40,11 +40,6 @@ object WarnCommand : AdvancedCommand(
             val reason = interaction.command.options["reason"]?.value as String
             interaction.acknowledgePublic().followUp {
                 content = "${member.mention} got warned!"
-                kotlin.runCatching {
-                    member.getDmChannel().createMessage("You got **warned** on ${interaction.guild().name} for `$reason`!")
-                }.onFailure {
-                    logger.warn("Couldn't dm ${member.username}#${member.discriminator}")
-                }
                 val warn = Warn(reason)
                 val origin = MongoDatabase.memberInfo.findOne { MemberInfo::id eq member.id }
                 var memberInfo = origin
@@ -59,6 +54,12 @@ object WarnCommand : AdvancedCommand(
                     MongoDatabase.memberInfo.deleteOne(origin!!.json.bson)
                 }
                 MongoDatabase.memberInfo.insertOne(memberInfo)
+                logger.debug("Trying to dm ${member.username}#${member.discriminator}")
+                kotlin.runCatching {
+                    member.getDmChannel().createMessage("You got **warned** on ${interaction.guild().name} for `$reason`!")
+                }.onFailure {
+                    logger.warn("Couldn't dm ${member.username}#${member.discriminator}")
+                }
                 logger.info("**${member.username}#${member.discriminator}** got warned by **${interaction.member().username}#${interaction.member().discriminator}** for `${reason}`")
                 if(memberInfo.warns.size >= 3) {
                     member.ban {
