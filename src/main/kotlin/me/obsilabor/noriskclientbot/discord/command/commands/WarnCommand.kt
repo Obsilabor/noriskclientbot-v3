@@ -42,7 +42,9 @@ object WarnCommand : AdvancedCommand(
                 content = "${member.mention} got warned!"
             }
             val warn = Warn(reason)
+            println("hi1")
             val origin = MongoDatabase.memberInfo.findOne { MemberInfo::id eq member.id }
+            println("hi2")
             var memberInfo = origin
             if(memberInfo == null) {
                 memberInfo = MemberInfo(
