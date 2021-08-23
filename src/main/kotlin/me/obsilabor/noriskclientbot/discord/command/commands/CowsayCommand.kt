@@ -16,13 +16,20 @@ object CowsayCommand : AdvancedCommand(
     }
 ) {
     override suspend fun handle(interaction: CommandInteraction) {
+        val text = interaction.command.options["text"]?.value.toString()
         interaction.acknowledgePublic().followUp {
+            var space = ""
+            var line = "----"
+            repeat(text.length) {
+                line+="-"
+                space+=" "
+            }
             content = """
                 ```
-                 ________________________________________
-                / linux ist ein gutes system und windows \
-                \ sucked einfach mies                    /
-                 ----------------------------------------
+                 $line
+                / $text \
+                \ $space /
+                 $line
                     \   ^__^
                      \  (oo)\_______
                         (__)\       )\/\
