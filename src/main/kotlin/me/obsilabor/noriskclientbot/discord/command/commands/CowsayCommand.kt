@@ -46,8 +46,8 @@ object CowsayCommand : AdvancedCommand(
                 content = """
                 ```
                  $line
-                / $text \
-                \ $space /
+                / $text   \
+                \ $space  /
                  $line
                     \   ^__^
                      \  (oo)\_______
