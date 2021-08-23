@@ -7,6 +7,7 @@ import dev.kord.core.behavior.interaction.followUp
 import dev.kord.core.entity.Member
 import dev.kord.core.entity.interaction.CommandInteraction
 import me.obsilabor.noriskclientbot.NoRiskClientBot
+import me.obsilabor.noriskclientbot.NoRiskClientBot.logger
 import me.obsilabor.noriskclientbot.data.MemberInfo
 import me.obsilabor.noriskclientbot.data.Warn
 import me.obsilabor.noriskclientbot.database.MongoDatabase
@@ -38,9 +39,12 @@ object WarnCommand : AdvancedCommand(
             val member = interaction.command.options["member"]?.value as Member
             val reason = interaction.command.options["reason"]?.value as String
             interaction.acknowledgePublic().followUp {
+                content = "${member.mention} got warned!"
                 kotlin.runCatching {
                     member.getDmChannel().createMessage("You got **warned** on ${interaction.guild().name} for `$reason`!")
-                }.onFailure {}
+                }.onFailure {
+                    logger.warn("Couldn't dm ${member.username}#${member.discriminator}")
+                }
                 val warn = Warn(reason)
                 val origin = MongoDatabase.memberInfo.findOne { MemberInfo::id eq member.id }
                 var memberInfo = origin
@@ -52,16 +56,15 @@ object WarnCommand : AdvancedCommand(
                     )
                 } else {
                     memberInfo.warns.add(warn)
+                    MongoDatabase.memberInfo.deleteOne(origin!!.json.bson)
                 }
-                MongoDatabase.memberInfo.deleteOne(origin!!.json.bson)
                 MongoDatabase.memberInfo.insertOne(memberInfo)
-                content = "${member.mention} got warned!"
-                NoRiskClientBot.logger.info("**${member.username}#${member.discriminator}** got warned by **${interaction.member().username}#${interaction.member().discriminator}** for `${reason}`")
+                logger.info("**${member.username}#${member.discriminator}** got warned by **${interaction.member().username}#${interaction.member().discriminator}** for `${reason}`")
                 if(memberInfo.warns.size >= 3) {
                     member.ban {
                         this.reason = "$reason (3-Warns)"
                     }
-                    NoRiskClientBot.logger.info("**${member.username}#${member.discriminator}** got warned by **${interaction.member().username}#${interaction.member().discriminator}** for `${reason}`")
+                    logger.info("**${member.username}#${member.discriminator}** got banned by **${interaction.member().username}#${interaction.member().discriminator}** for `${reason}`")
                 }
             }
         } else {

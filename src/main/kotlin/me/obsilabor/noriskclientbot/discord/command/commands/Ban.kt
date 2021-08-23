@@ -33,7 +33,9 @@ object Ban : AdvancedCommand(
             interaction.acknowledgePublic().followUp {
                 kotlin.runCatching {
                     member.getDmChannel().createMessage("You got **banned** on ${interaction.guild().name}${if(banReason == null) "!" else " for `${banReason}`!"}")
-                }.onFailure {}
+                }.onFailure {
+                    logger.warn("Couldn't dm ${member.username}#${member.discriminator}")
+                }
                 content = "${member.mention} got banned!"
                 member.ban {
                     banReason?.let {
