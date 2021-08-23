@@ -13,6 +13,8 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import me.obsilabor.noriskclientbot.NoRiskClientBot
 import me.obsilabor.noriskclientbot.NoRiskClientBot.logger
+import me.obsilabor.noriskclientbot.discord.command.CommandManager.cleanupCommands
+import me.obsilabor.noriskclientbot.discord.command.CommandManager.registerCommands
 import me.obsilabor.noriskclientbot.extensions.client
 import me.obsilabor.noriskclientbot.logging.error.Error
 import me.obsilabor.noriskclientbot.systems.OperatingSystem
@@ -50,12 +52,14 @@ object CommandManager {
             logger.debug("Registered on guilds!")
         }
         client.on<GuildCreateEvent> {
-            logger.debug("Cleaning up ${guild.name}")
-            this.guild.cleanupCommands()
-            logger.debug("Registering commands for ${guild.name}")
-            this.guild.registerCommands()
-            this.guild.editSelfNickname("NoRiskClientBot :3")
-            logger.info("${guild.name} is ready")
+            commandScope.launch {
+                logger.debug("Cleaning up ${guild.name}")
+                this.guild.cleanupCommands()
+                logger.debug("Registering commands for ${guild.name}")
+                this.guild.registerCommands()
+                this.guild.editSelfNickname("NoRiskClientBot :3")
+                logger.info("${guild.name} is ready")
+            }
         }
         client.on<InteractionCreateEvent> {
             if(interaction is CommandInteraction) {
