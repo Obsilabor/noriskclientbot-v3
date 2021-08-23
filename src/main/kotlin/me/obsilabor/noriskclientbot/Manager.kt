@@ -7,10 +7,7 @@ import dev.kord.core.entity.Guild
 import me.obsilabor.noriskclientbot.config.ConfigManager
 import me.obsilabor.noriskclientbot.database.MongoDatabase
 import me.obsilabor.noriskclientbot.discord.command.CommandManager
-import me.obsilabor.noriskclientbot.discord.command.commands.Ban
-import me.obsilabor.noriskclientbot.discord.command.commands.Cape
-import me.obsilabor.noriskclientbot.discord.command.commands.Random
-import me.obsilabor.noriskclientbot.discord.command.commands.Download
+import me.obsilabor.noriskclientbot.discord.command.commands.*
 import me.obsilabor.noriskclientbot.discord.listener.LegacyCommandListener
 import me.obsilabor.noriskclientbot.discord.listener.MessageListener
 import me.obsilabor.noriskclientbot.logging.Logger
@@ -38,6 +35,7 @@ object NoRiskClientBot {
         Random.register()
         Cape.register()
         Ban.register()
+        WarnCommand.register()
         CommandManager.init()
         MessageListener().register(client)
         LegacyCommandListener().register(client)

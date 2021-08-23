@@ -27,6 +27,6 @@ object MongoDatabase {
 
     lateinit var mongoDB: MongoDB
 
-    lateinit var memberInfo: MongoCollection<*>
+    lateinit var memberInfo: MongoCollection<MemberInfo>
 
 }

@@ -66,7 +66,7 @@ class Logger(val out: PrintStream) {
 
     suspend fun log(level: Level, message: String): String {
         return if(level.isEnabled) {
-            val string = "[${SimpleDateFormat("HH:MM:ss").format(Date())}] [${Thread.currentThread().threadGroup.name}/${level.name}]: $message"
+            val string = "[${SimpleDateFormat("HH:mm:ss").format(Date())}] [${Thread.currentThread().threadGroup.name}/${level.name}]: $message"
             (nrcGuild.getChannel(Snowflake(ConfigManager.noRiskClientBotConfig.logChannelId ?: error("No log channel set!"))) as MessageChannelBehavior).createMessage(string)
             out.println(string)
             message
