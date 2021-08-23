@@ -37,6 +37,7 @@ object WarnCommand : AdvancedCommand(
     override suspend fun handle(interaction: CommandInteraction) {
         if(interaction.member().hasPermission(Permission.KickMembers)) {
             val member = interaction.command.options["member"]?.value as Member
+            val memberId = member.id.asString
             val reason = interaction.command.options["reason"]?.value as String
             interaction.acknowledgePublic().followUp {
                 content = "${member.mention} got warned!"
@@ -45,8 +46,8 @@ object WarnCommand : AdvancedCommand(
             println("hi1")
 
             println("hi2")
-            val memberInfo = MongoDatabase.memberInfo.findOne { MemberInfo::id eq member.id.asString }
-            var toInsert: MemberInfo? = null
+            val memberInfo = MongoDatabase.memberInfo.findOne { MemberInfo::id eq memberId }
+            val toInsert: MemberInfo?
             if(memberInfo == null) {
                 println("hi2.1")
                 toInsert = MemberInfo(
@@ -59,12 +60,12 @@ object WarnCommand : AdvancedCommand(
                 val warns = memberInfo.warns
                 warns.add(warn)
                 toInsert = MemberInfo(
-                    member.id.asString,
+                    memberId,
                     warns,
                     memberInfo.connectedMinecraftAccount
                 )
                 println("hi2.6")
-                MongoDatabase.memberInfo.deleteOne("{\"_id\": \"${member.id.asString}\"}".json.bson)
+                MongoDatabase.memberInfo.deleteOne("{\"_id\": \"${memberId}\"}".json.bson)
                 println("hi2.7")
             }
             MongoDatabase.memberInfo.insertOne(toInsert)
