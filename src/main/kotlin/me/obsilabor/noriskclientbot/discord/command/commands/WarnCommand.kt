@@ -53,7 +53,7 @@ object WarnCommand : AdvancedCommand(
                         null
                     ))
                 } else {
-                    val warns = memberInfo.warns
+                    val warns = memberInfo.warns.clone() as ArrayList<Warn>
                     warns.add(warn)
                     MongoDatabase.memberInfo.replaceOne(memberInfo.json.bson, MemberInfo(
                         memberId,
@@ -65,13 +65,10 @@ object WarnCommand : AdvancedCommand(
             logger.debug("Trying to dm ${member.username}#${member.discriminator}")
             kotlin.runCatching {
                 member.getDmChannel().createMessage("You got **warned** on ${interaction.guild().name} for `$reason`!")
-                println("hi4.1")
             }.onFailure {
                 logger.warn("Couldn't dm ${member.username}#${member.discriminator}")
-                println("hi4.5")
             }
             logger.info("**${member.username}#${member.discriminator}** got warned by **${interaction.member().username}#${interaction.member().discriminator}** for `${reason}`")
-            println("hi5")
             if(MongoDatabase.memberInfo.findOne { MemberInfo::id eq memberId }!!.warns.size >= 3) {
                 member.ban {
                     this.reason = "$reason (3-Warns)"
