@@ -73,6 +73,11 @@ object WarnCommand : AdvancedCommand(
                 member.ban {
                     this.reason = "$reason (3-Warns)"
                 }
+                MongoDatabase.memberInfo.replaceOne(memberInfo!!.json.bson, MemberInfo(
+                    memberId,
+                    arrayListOf(),
+                    memberInfo.connectedMinecraftAccount
+                ))
                 logger.info("**${member.username}#${member.discriminator}** got banned by **${interaction.member().username}#${interaction.member().discriminator}** for `${reason}`")
             }
 
