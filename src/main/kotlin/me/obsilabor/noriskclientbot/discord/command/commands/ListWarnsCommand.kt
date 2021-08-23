@@ -34,6 +34,7 @@ object ListWarnsCommand : AdvancedCommand(
     override suspend fun handle(interaction: CommandInteraction) {
         if(interaction.member().hasPermission(Permission.KickMembers)) {
             val member = interaction.command.options["member"]?.value as Member
+            var memberInfo: MemberInfo? = null
             interaction.acknowledgePublic().followUp {
                 embed {
                     title = "Warns from ${member.mention}"
@@ -46,16 +47,16 @@ object ListWarnsCommand : AdvancedCommand(
                         url = interaction.guild().getIconUrl(Image.Format.GIF)!!
                     }
                     MongoDatabase.mongoScope.launch {
-                        val memberInfo = MongoDatabase.memberInfo.findOne { MemberInfo::id eq member.id.asString }
-                        if(memberInfo == null) {
-                            description = "This member has no warnings."
-                        } else {
-                            for (warning in memberInfo.warns) {
-                                field {
-                                    inline = true
-                                    name = warning.reason
-                                    value = "Warned on the (${SimpleDateFormat("dd.MM.yyyy").format(Date(warning.timestamp))})[https://obsilabor.me]"
-                                }
+                        memberInfo = MongoDatabase.memberInfo.findOne { MemberInfo::id eq member.id.asString }
+                    }
+                    if(memberInfo == null) {
+                        description = "This member has no warnings."
+                    } else {
+                        for (warning in memberInfo!!.warns) {
+                            field {
+                                inline = true
+                                name = warning.reason
+                                value = "Warned on the (${SimpleDateFormat("dd.MM.yyyy").format(Date(warning.timestamp))})[https://obsilabor.me]"
                             }
                         }
                     }
