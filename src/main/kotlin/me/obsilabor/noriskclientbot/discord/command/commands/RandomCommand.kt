@@ -4,13 +4,15 @@ import dev.kord.common.annotation.KordPreview
 import dev.kord.core.behavior.interaction.followUp
 import dev.kord.core.entity.interaction.CommandInteraction
 import me.obsilabor.noriskclientbot.discord.command.AdvancedCommand
+import me.obsilabor.noriskclientbot.discord.command.CommandCategory
 import me.obsilabor.noriskclientbot.discord.command.LegacyInteraction
 import me.obsilabor.noriskclientbot.discord.command.SimpleCommand
 
 @KordPreview
 object RandomCommand : SimpleCommand(
     commandName = "random",
-    commandDescription = "Random survival quotes"
+    commandDescription = "Random survival quotes",
+    commandCategory = CommandCategory.FUN
 ) {
 
     val quotes = listOf(

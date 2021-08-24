@@ -13,6 +13,7 @@ import me.obsilabor.noriskclientbot.data.MemberInfo
 import me.obsilabor.noriskclientbot.data.Warn
 import me.obsilabor.noriskclientbot.database.MongoDatabase
 import me.obsilabor.noriskclientbot.discord.command.AdvancedCommand
+import me.obsilabor.noriskclientbot.discord.command.CommandCategory
 import me.obsilabor.noriskclientbot.extensions.guild
 import me.obsilabor.noriskclientbot.extensions.hasPermission
 import me.obsilabor.noriskclientbot.extensions.member
@@ -26,6 +27,7 @@ import org.litote.kmongo.json
 object WarnCommand : AdvancedCommand(
     commandName = "warn",
     commandDescription = "Warn users that if they continue like this, they will be punished",
+    commandCategory = CommandCategory.MODERATION,
     {
         user("member", "The person which should get warned") {
             required = true

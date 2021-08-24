@@ -15,10 +15,12 @@ import java.util.*
 @KordPreview
 abstract class SimpleCommand(
     val commandName: String,
-    val commandDescription: String
+    val commandDescription: String,
+    val commandCategory: CommandCategory,
 ) : Command<CommandInteraction>(
     name = commandName,
-    description = commandDescription
+    description = commandDescription,
+    category = commandCategory
 ) {
 
     override suspend fun handle(interaction: CommandInteraction) {

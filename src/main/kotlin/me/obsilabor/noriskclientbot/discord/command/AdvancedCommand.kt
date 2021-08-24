@@ -8,14 +8,15 @@ import dev.kord.rest.builder.interaction.ApplicationCommandCreateBuilder
 abstract class AdvancedCommand(
     val commandName: String,
     val commandDescription: String,
+    val commandCategory: CommandCategory,
     val builder: ApplicationCommandCreateBuilder.() -> Unit = {}
 ) : Command<CommandInteraction>(
     name = commandName,
-    description = commandDescription
+    description = commandDescription,
+    category = commandCategory
 ) {
 
     override suspend fun register() {
-        @Suppress("LeakingThis")
         CommandManager.register((this))
     }
 

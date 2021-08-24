@@ -11,6 +11,7 @@ import dev.kord.rest.builder.message.create.embed
 import me.obsilabor.noriskclientbot.data.MemberInfo
 import me.obsilabor.noriskclientbot.database.MongoDatabase
 import me.obsilabor.noriskclientbot.discord.command.AdvancedCommand
+import me.obsilabor.noriskclientbot.discord.command.CommandCategory
 import me.obsilabor.noriskclientbot.extensions.guild
 import me.obsilabor.noriskclientbot.extensions.hasPermission
 import me.obsilabor.noriskclientbot.extensions.member
@@ -24,6 +25,7 @@ import java.util.*
 object ListWarnsCommand : AdvancedCommand(
     commandName = "warns",
     commandDescription = "List the warns of an specific member",
+    commandCategory = CommandCategory.MODERATION,
     {
         user("member", "The member whose warnings you want to see") {
             required = true

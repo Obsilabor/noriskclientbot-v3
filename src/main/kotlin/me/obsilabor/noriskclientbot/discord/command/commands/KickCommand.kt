@@ -8,6 +8,7 @@ import dev.kord.core.entity.Member
 import dev.kord.core.entity.interaction.CommandInteraction
 import me.obsilabor.noriskclientbot.NoRiskClientBot
 import me.obsilabor.noriskclientbot.discord.command.AdvancedCommand
+import me.obsilabor.noriskclientbot.discord.command.CommandCategory
 import me.obsilabor.noriskclientbot.extensions.guild
 import me.obsilabor.noriskclientbot.extensions.hasPermission
 import me.obsilabor.noriskclientbot.extensions.member
@@ -17,6 +18,7 @@ import me.obsilabor.noriskclientbot.extensions.sendNoPermissions
 object KickCommand : AdvancedCommand(
     commandName = "kick",
     commandDescription = "Kick users from the server!",
+    commandCategory = CommandCategory.MODERATION,
     {
         user("member", "The person which should get kicked") {
             required = true

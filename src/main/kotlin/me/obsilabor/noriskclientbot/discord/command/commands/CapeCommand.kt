@@ -5,6 +5,7 @@ import dev.kord.common.annotation.KordPreview
 import dev.kord.common.entity.Snowflake
 import dev.kord.core.behavior.channel.createEmbed
 import dev.kord.rest.Image
+import me.obsilabor.noriskclientbot.discord.command.CommandCategory
 import me.obsilabor.noriskclientbot.discord.command.LegacyInteraction
 import me.obsilabor.noriskclientbot.discord.command.SimpleCommand
 import me.obsilabor.noriskclientbot.extensions.guild
@@ -12,7 +13,8 @@ import me.obsilabor.noriskclientbot.extensions.guild
 @KordPreview
 object CapeCommand : SimpleCommand(
     commandName = "cape",
-    commandDescription = "Get a description how to upload your custom cape"
+    commandDescription = "Get a description how to upload your custom cape",
+    commandCategory = CommandCategory.INFORMATION
 ) {
     override suspend fun handleLegacy(interaction: LegacyInteraction) {
         interaction.channel.createEmbed {
