@@ -20,7 +20,7 @@ object HelpCommand : AdvancedCommand(
         string("category", "Select a category to show help about") {
             required = false
             for (category in CommandCategory.values()) {
-                choice(category.name.lowercase(), "Show help about ${category.capitalizedName}")
+                choice(category.name.lowercase(), category.name.lowercase())
             }
         }
     }
