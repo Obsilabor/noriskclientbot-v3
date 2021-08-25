@@ -34,7 +34,7 @@ object UnmuteCommand : AdvancedCommand(
                 NoRiskClientBot.logger.info("**${member.username}#${member.discriminator}** got unmuted by **${interaction.member().username}#${interaction.member().discriminator}**")
             }
         } else {
-            interaction.channel.sendNoPermissions(interaction.member())
+            interaction.channel.sendNoPermissions(interaction)
         }
     }
 }

@@ -7,10 +7,12 @@ import dev.kord.common.entity.Snowflake
 import dev.kord.core.Kord
 import dev.kord.core.behavior.channel.MessageChannelBehavior
 import dev.kord.core.behavior.channel.createEmbed
+import dev.kord.core.behavior.interaction.followUpEphemeral
 import dev.kord.core.entity.Guild
 import dev.kord.core.entity.Member
 import dev.kord.core.entity.interaction.Interaction
 import dev.kord.rest.Image
+import dev.kord.rest.builder.message.create.embed
 import me.obsilabor.noriskclientbot.NoRiskClientBot
 import me.obsilabor.noriskclientbot.config.ConfigManager
 
@@ -52,3 +54,21 @@ suspend fun MessageChannelBehavior.sendNoPermissions(member: Member) {
         description = "${member.mention}, sorry but you don't have permission to perform that action!"
     }
 }
+
+@KordPreview
+suspend fun MessageChannelBehavior.sendNoPermissions(interaction: Interaction) {
+    interaction.acknowledgeEphemeral().followUpEphemeral {
+        embed {
+            color = Color(255, 0, 0)
+            footer {
+                icon = nrcGuild.getIconUrl(Image.Format.GIF)!!
+                text = nrcGuild.name
+            }
+            thumbnail {
+                url = nrcGuild.getIconUrl(Image.Format.GIF)!!
+            }
+            description = "${interaction.member().mention}, sorry but you don't have permission to perform that action!"
+        }
+    }
+}
+

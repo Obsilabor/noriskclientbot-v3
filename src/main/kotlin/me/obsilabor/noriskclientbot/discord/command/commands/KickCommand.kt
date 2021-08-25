@@ -47,7 +47,7 @@ object KickCommand : AdvancedCommand(
                 NoRiskClientBot.logger.info("**${member.username}#${member.discriminator}** got kicked by **${interaction.member().username}#${interaction.member().discriminator}**${if(kickReason == null) "" else " for `${kickReason}`"}")
             }
         } else {
-            interaction.channel.sendNoPermissions(interaction.member())
+            interaction.channel.sendNoPermissions(interaction)
         }
     }
 }

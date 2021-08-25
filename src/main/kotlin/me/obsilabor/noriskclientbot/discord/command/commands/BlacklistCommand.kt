@@ -74,7 +74,7 @@ object BlacklistCommand : AdvancedCommand(
                 }
             }
         } else {
-            interaction.channel.sendNoPermissions(interaction.member())
+            interaction.channel.sendNoPermissions(interaction)
         }
     }
 

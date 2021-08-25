@@ -7,6 +7,7 @@ import me.obsilabor.noriskclientbot.NoRiskClientBot.logger
 import me.obsilabor.noriskclientbot.config.ConfigManager
 import me.obsilabor.noriskclientbot.data.MemberInfo
 import me.obsilabor.noriskclientbot.data.StringContainer
+import me.obsilabor.noriskclientbot.tickets.Ticket
 import net.axay.blueutils.database.DatabaseLoginInformation
 import net.axay.blueutils.database.mongodb.MongoDB
 
@@ -27,6 +28,7 @@ object MongoDatabase {
         )
         memberInfo = mongoDB.getCollectionOrCreate("NRC_3_memberInfo")
         blacklist = mongoDB.getCollectionOrCreate("NRC_3_blacklist")
+        tickets = mongoDB.getCollectionOrCreate("NRC_3_tickets")
         logger.debug("Created mongodb connection.")
 
     }
@@ -35,5 +37,6 @@ object MongoDatabase {
 
     lateinit var memberInfo: MongoCollection<MemberInfo>
     lateinit var blacklist: MongoCollection<StringContainer>
+    lateinit var tickets: MongoCollection<Ticket>
 
 }

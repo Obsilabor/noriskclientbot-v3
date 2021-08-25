@@ -5,6 +5,8 @@ import dev.kord.common.entity.Permission
 import dev.kord.common.entity.Snowflake
 import dev.kord.core.Kord
 import dev.kord.core.behavior.ban
+import dev.kord.core.behavior.channel.editRolePermission
+import dev.kord.core.behavior.createTextChannel
 import dev.kord.core.event.message.MessageCreateEvent
 import dev.kord.core.on
 import me.obsilabor.noriskclientbot.config.ConfigManager
@@ -14,6 +16,7 @@ import me.obsilabor.noriskclientbot.detection.MassPingDetection.getPingCount
 import me.obsilabor.noriskclientbot.detection.UrlDetection.containsUrl
 import me.obsilabor.noriskclientbot.extensions.emojiGuild
 import me.obsilabor.noriskclientbot.extensions.hasPermission
+import me.obsilabor.noriskclientbot.extensions.nrcGuild
 
 @KordPreview
 class MessageListener : Listener {

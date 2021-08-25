@@ -48,7 +48,7 @@ object BanCommand : AdvancedCommand(
                 logger.info("**${member.username}#${member.discriminator}** got banned by **${interaction.member().username}#${interaction.member().discriminator}**${if(banReason == null) "" else " for `${banReason}`"}")
             }
         } else {
-            interaction.channel.sendNoPermissions(interaction.member())
+            interaction.channel.sendNoPermissions(interaction)
         }
     }
 }

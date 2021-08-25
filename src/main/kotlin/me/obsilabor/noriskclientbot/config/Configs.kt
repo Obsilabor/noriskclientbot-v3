@@ -10,7 +10,14 @@ class NoRiskClientBotConfig(
     val noriskClientGuildId: String? = null,
     val logChannelId: String? = null,
     val mutedRoleId: String? = null,
-    val emoteServerConfig: EmoteServerConfig
+    val emoteServerConfig: EmoteServerConfig,
+    val ticketChannelId: String? = null,
+    val passphrase: String? = null,
+    val supportChannelId: String? = null,
+    val faqChannelId: String? = null,
+    val supportCategoryId: String? = null,
+    val everyoneRoleId: String? = null,
+    val helperRoleId: String? = null
 )
 
 @Serializable

@@ -39,7 +39,7 @@ object MuteCommand : AdvancedCommand(
                 NoRiskClientBot.logger.info("**${member.username}#${member.discriminator}** got muted by **${interaction.member().username}#${interaction.member().discriminator}**${if(muteReason == null) "" else " for `${muteReason}`"}")
             }
         } else {
-            interaction.channel.sendNoPermissions(interaction.member())
+            interaction.channel.sendNoPermissions(interaction)
         }
     }
 }
