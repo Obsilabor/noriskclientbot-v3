@@ -69,6 +69,7 @@ object HelpCommand : AdvancedCommand(
                             string+="${if(command is AdvancedCommand) "$yesEmoji" else "$noEmoji"} `/${command.name}` - ${command.description}\n"
                         }
                     }
+                    description = string
                 }
             }
         }
