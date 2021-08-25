@@ -66,6 +66,11 @@ object NoRiskClientBot {
             noriskClientGuildId: id
             logChannelId: id
             mutedRoleId: id
+            emoteServerConfig {
+                guildId=id
+                obsiEmoteId=id
+                twelveEmoteId=id
+            }
         """.trimIndent())
         error("Configure the application before running it")
     }

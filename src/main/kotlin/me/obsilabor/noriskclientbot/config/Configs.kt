@@ -9,7 +9,8 @@ class NoRiskClientBotConfig(
     val wastebinClientConfig: WastebinClientConfig? = null,
     val noriskClientGuildId: String? = null,
     val logChannelId: String? = null,
-    val mutedRoleId: String? = null
+    val mutedRoleId: String? = null,
+    val emoteServerConfig: EmoteServerConfig
 )
 
 @Serializable
@@ -26,4 +27,11 @@ class WastebinClientConfig(
     val token: String? = null,
     val serverHostName: String? = null,
     val serverPort: Int? = null
+)
+
+@Serializable
+class EmoteServerConfig(
+    val guildId: String? = null,
+    val obsiEmoteId: String? = null,
+    val twelveEmoteId: String? = null
 )

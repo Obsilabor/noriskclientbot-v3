@@ -1,15 +1,13 @@
 package me.obsilabor.noriskclientbot.discord.listener
 
-import com.gitlab.kordlib.kordx.emoji.Emojis
+import dev.kord.common.entity.Snowflake
 import dev.kord.core.Kord
 import dev.kord.core.behavior.ban
-import dev.kord.core.behavior.channel.createMessage
-import dev.kord.core.entity.ReactionEmoji
 import dev.kord.core.event.message.MessageCreateEvent
-import dev.kord.core.event.message.MessageDeleteEvent
 import dev.kord.core.on
-import dev.kord.rest.route.Route
+import me.obsilabor.noriskclientbot.config.ConfigManager
 import me.obsilabor.noriskclientbot.detection.MassPingDetection.getPingCount
+import me.obsilabor.noriskclientbot.extensions.emojiGuild
 
 class MessageListener : Listener {
 
@@ -23,9 +21,11 @@ class MessageListener : Listener {
                     reason = "Massive pings"
                 }
             }
+            if(this.message.content.lowercase().contains("hast du obsi für mich")) {
+                this.message.channel.createMessage(emojiGuild().getEmoji(Snowflake(ConfigManager.noRiskClientBotConfig.emoteServerConfig.obsiEmoteId ?: error("Obsi emoji id is null!"))).mention)
+            }
             if(this.message.content.contains("xD")) {
-                this.message.addReaction(ReactionEmoji.Unicode(Emojis.one.unicode))
-                this.message.addReaction(ReactionEmoji.Unicode(Emojis.two.unicode))
+                this.message.addReaction(emojiGuild().getEmoji(Snowflake(ConfigManager.noRiskClientBotConfig.emoteServerConfig.twelveEmoteId ?: error("Twelve emoji id is null!"))))
             }
         }
     }
