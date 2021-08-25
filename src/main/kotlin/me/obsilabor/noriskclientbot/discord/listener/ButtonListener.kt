@@ -2,10 +2,7 @@ package me.obsilabor.noriskclientbot.discord.listener
 
 import com.gitlab.kordlib.kordx.emoji.Emojis
 import dev.kord.common.annotation.KordPreview
-import dev.kord.common.entity.ButtonStyle
-import dev.kord.common.entity.DiscordPartialEmoji
-import dev.kord.common.entity.Permission
-import dev.kord.common.entity.Snowflake
+import dev.kord.common.entity.*
 import dev.kord.core.Kord
 import dev.kord.core.behavior.channel.createMessage
 import dev.kord.core.behavior.channel.editMemberPermission
@@ -53,16 +50,6 @@ class ButtonListener : Listener {
                         val id = MongoDatabase.tickets.find().toList().size+1
                         val channel = nrcGuild.createTextChannel("Ticket #$id") {
                             parentId = Snowflake(ConfigManager.noRiskClientBotConfig.supportCategoryId ?: "supportCategoryId is null!")
-                        }
-                        channel.editRolePermission(Snowflake(ConfigManager.noRiskClientBotConfig.everyoneRoleId ?: error("everyoneRoleId is null!"))) {
-                            denied.plus(Permission.ReadMessageHistory)
-                            denied.plus(Permission.SendMessages)
-                            denied.plus(Permission.ViewChannel)
-                        }
-                        channel.editRolePermission(Snowflake(ConfigManager.noRiskClientBotConfig.helperRoleId ?: error("helperRoleId is null!"))) {
-                            allowed.plus(Permission.ReadMessageHistory)
-                            allowed.plus(Permission.SendMessages)
-                            allowed.plus(Permission.ViewChannel)
                         }
                         channel.editMemberPermission(interaction.member().id) {
                             allowed.plus(Permission.ReadMessageHistory)
