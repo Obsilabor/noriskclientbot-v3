@@ -75,9 +75,9 @@ object CommandManager {
         client.on<ChatInputCommandInteractionCreateEvent> {
             kotlin.runCatching {
                 if(slashCommands.containsKey(interaction.command.rootName)) {
-                    slashCommands[(interaction as CommandInteraction).command.rootName]?.handle(interaction as CommandInteraction)
+                    slashCommands[interaction.command.rootName]?.handle(interaction)
                 } else {
-                    otherCommands[(interaction as CommandInteraction).command.rootName]?.handle(interaction as CommandInteraction)
+                    otherCommands[interaction.command.rootName]?.handle(interaction)
                 }
             }.onFailure {
                 logger.uploadErrorAndCreateEmbed(

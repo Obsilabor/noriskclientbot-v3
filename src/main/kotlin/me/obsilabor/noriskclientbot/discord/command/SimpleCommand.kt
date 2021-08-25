@@ -2,6 +2,7 @@ package me.obsilabor.noriskclientbot.discord.command
 
 import dev.kord.common.annotation.KordPreview
 import dev.kord.core.behavior.interaction.followUp
+import dev.kord.core.entity.interaction.ChatInputCommandInteraction
 import dev.kord.core.entity.interaction.CommandInteraction
 import me.obsilabor.noriskclientbot.NoRiskClientBot
 import me.obsilabor.noriskclientbot.extensions.guild
@@ -17,13 +18,13 @@ abstract class SimpleCommand(
     val commandName: String,
     val commandDescription: String,
     val commandCategory: CommandCategory,
-) : Command<CommandInteraction>(
+) : Command<ChatInputCommandInteraction>(
     name = commandName,
     description = commandDescription,
     category = commandCategory
 ) {
 
-    override suspend fun handle(interaction: CommandInteraction) {
+    override suspend fun handle(interaction: ChatInputCommandInteraction) {
         kotlin.runCatching {
             interaction.acknowledgePublic().followUp {
                 content = "_ _"
