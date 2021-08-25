@@ -6,6 +6,7 @@ import kotlinx.coroutines.Dispatchers
 import me.obsilabor.noriskclientbot.NoRiskClientBot.logger
 import me.obsilabor.noriskclientbot.config.ConfigManager
 import me.obsilabor.noriskclientbot.data.MemberInfo
+import me.obsilabor.noriskclientbot.data.StringContainer
 import net.axay.blueutils.database.DatabaseLoginInformation
 import net.axay.blueutils.database.mongodb.MongoDB
 
@@ -24,7 +25,8 @@ object MongoDatabase {
                 ConfigManager.noRiskClientBotConfig.mongoConfig.password?.replace("\"", "") ?: error(logger.fatal("MongoDB login information cannot be null")),
             )
         )
-        memberInfo = mongoDB.getCollectionOrCreate<MemberInfo>("NRC_3_memberInfo")
+        memberInfo = mongoDB.getCollectionOrCreate("NRC_3_memberInfo")
+        blacklist = mongoDB.getCollectionOrCreate("NRC_3_blacklist")
         logger.debug("Created mongodb connection.")
 
     }
@@ -32,5 +34,6 @@ object MongoDatabase {
     lateinit var mongoDB: MongoDB
 
     lateinit var memberInfo: MongoCollection<MemberInfo>
+    lateinit var blacklist: MongoCollection<StringContainer>
 
 }

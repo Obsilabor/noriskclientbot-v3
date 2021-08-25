@@ -42,6 +42,7 @@ object NoRiskClientBot {
         UnmuteCommand.register()
         CowsayCommand.register()
         HelpCommand.register()
+        BlacklistCommand.register()
         CommandManager.init()
         MessageListener().register(client)
         LegacyCommandListener().register(client)
