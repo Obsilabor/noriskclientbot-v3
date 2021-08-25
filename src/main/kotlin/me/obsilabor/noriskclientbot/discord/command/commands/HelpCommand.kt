@@ -1,5 +1,6 @@
 package me.obsilabor.noriskclientbot.discord.command.commands
 
+import com.gitlab.kordlib.kordx.emoji.Emojis
 import dev.kord.common.Color
 import dev.kord.common.annotation.KordPreview
 import dev.kord.core.behavior.interaction.followUp
@@ -8,6 +9,7 @@ import dev.kord.rest.Image
 import dev.kord.rest.builder.message.create.embed
 import me.obsilabor.noriskclientbot.discord.command.AdvancedCommand
 import me.obsilabor.noriskclientbot.discord.command.CommandCategory
+import me.obsilabor.noriskclientbot.discord.command.CommandManager
 import me.obsilabor.noriskclientbot.extensions.guild
 
 @KordPreview
@@ -42,6 +44,29 @@ object HelpCommand : AdvancedCommand(
                             name = category.capitalizedName
                             value = "**${category.capitalizedName}** ${category.emoji}\n__ __\n${category.description}\n__ __\n Type `/help ${category.name.lowercase()}` to view commands of **${category.capitalizedName}**"
                             inline = true
+                        }
+                    }
+                }
+            }
+        } else {
+            val category = CommandCategory.valueOf(input.toString().uppercase())
+            interaction.acknowledgePublic().followUp {
+                embed {
+                    title = "Help - ${category.capitalizedName}"
+                    color = Color(0, 251, 255)
+                    footer {
+                        icon = interaction.guild().getIconUrl(Image.Format.GIF)!!
+                        text = interaction.guild().name
+                    }
+                    thumbnail {
+                        url = interaction.guild().getIconUrl(Image.Format.GIF)!!
+                    }
+                    val yesEmoji = Emojis.whiteCheckMark
+                    val noEmoji = Emojis.regionalIndicatorX
+                    var string = "${category.emoji} Commands of **${category.capitalizedName}**:\n__ __\n"
+                    for(command in CommandManager.getAllCommands()) {
+                        if(command.category == category) {
+                            string+="${if(command is AdvancedCommand) "$yesEmoji" else "$noEmoji"} `/${command.name}` - ${command.description}\n"
                         }
                     }
                 }

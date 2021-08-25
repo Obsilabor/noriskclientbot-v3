@@ -29,6 +29,17 @@ object CommandManager {
     val slashCommands = HashMap<String, AdvancedCommand>()
     val otherCommands = HashMap<String, SimpleCommand>()
 
+    fun getAllCommands(): List<Command<*>> {
+        val list = arrayListOf<Command<*>>()
+        for(command in slashCommands.values) {
+            list.add(command)
+        }
+        for(command in otherCommands.values) {
+            list.add(command)
+        }
+        return list
+    }
+
     fun register(command: Command<*>) {
         if(command is AdvancedCommand) {
             slashCommands[command.name] = command
