@@ -46,7 +46,9 @@ object NoRiskClientBot {
         CommandManager.init()
         MessageListener().register(client)
         LegacyCommandListener().register(client)
-        client.login()
+        client.login {
+            playing("\uD83D\uDC99 NoRiskClient")
+        }
     }
 
     fun writeDefaultsAndExit(): String {
