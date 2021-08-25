@@ -15,7 +15,7 @@ repositories {
 
 dependencies {
     //Kord
-    implementation("dev.kord:kord-core:0.8.0-M5")
+    implementation("dev.kord:kord-core:0.8.0-M4")
     implementation("com.gitlab.kordlib:kordx.emoji:0.4.0")
 
     //Config
