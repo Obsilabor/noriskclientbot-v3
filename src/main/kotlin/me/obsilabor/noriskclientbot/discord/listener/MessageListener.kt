@@ -21,10 +21,22 @@ class MessageListener : Listener {
                     reason = "Massive pings"
                 }
             }
-            if(this.message.content.lowercase().contains("hast du eig ein bisschen obsi für mich")) {
+            if(this.message.content.lowercase().contains("hast du") && this.message.content.lowercase().contains("obsi")) {
+                val r = Random().nextInt(25)
+                if(r < 10) {
                 this.message.channel.createMessage(emojiGuild().getEmoji(Snowflake(ConfigManager.noRiskClientBotConfig.emoteServerConfig.obsiEmoteId ?: error("Obsi emoji id is null!"))).mention)
-            }
-            if(this.message.content.contains("xD")) {
+                } else if(r in 10..18) {
+                    this.message.addReaction(ReactionEmoji.Unicode(Emojis.noEntrySign.unicode))
+                } else {
+                    if(this.message.author!!.avatar.isAnimated) {
+                        this.message.addReaction(ReactionEmoji.Unicode(Emojis.rofl.unicode))
+                        this.message.addReaction(ReactionEmoji.Unicode(Emojis.thumbsup.unicode))
+                    } else {
+                        this.message.channel.createMessage("Gerne doch")
+                        this.message.channel.createMessage(emojiGuild().getEmoji(Snowflake(ConfigManager.noRiskClientBotConfig.emoteServerConfig.obsiEmoteId ?: error("Obsi emoji id is null!"))).mention)
+                    }
+                }
+            } else if(this.message.content.contains("xD")) {
                 this.message.addReaction(emojiGuild().getEmoji(Snowflake(ConfigManager.noRiskClientBotConfig.emoteServerConfig.twelveEmoteId ?: error("Twelve emoji id is null!"))))
             }
         }
