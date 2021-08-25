@@ -21,7 +21,7 @@ class MessageListener : Listener {
                     reason = "Massive pings"
                 }
             }
-            if(this.message.content.lowercase().contains("hast du obsi für mich")) {
+            if(this.message.content.lowercase().contains("hast du eig ein bisschen obsi für mich")) {
                 this.message.channel.createMessage(emojiGuild().getEmoji(Snowflake(ConfigManager.noRiskClientBotConfig.emoteServerConfig.obsiEmoteId ?: error("Obsi emoji id is null!"))).mention)
             }
             if(this.message.content.contains("xD")) {
