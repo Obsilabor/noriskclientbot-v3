@@ -5,6 +5,7 @@ import dev.kord.common.annotation.KordPreview
 import dev.kord.common.entity.Permission
 import dev.kord.core.behavior.interaction.followUp
 import dev.kord.core.entity.Member
+import dev.kord.core.entity.interaction.ChatInputCommandInteraction
 import dev.kord.core.entity.interaction.CommandInteraction
 import dev.kord.rest.Image
 import dev.kord.rest.builder.interaction.user
@@ -33,7 +34,7 @@ object ListWarnsCommand : AdvancedCommand(
         }
     }
 ) {
-    override suspend fun handle(interaction: CommandInteraction) {
+    override suspend fun handle(interaction: ChatInputCommandInteraction) {
         if(interaction.member().hasPermission(Permission.KickMembers)) {
             val member = interaction.command.options["member"]?.value as Member
             val memberInfo = MongoDatabase.memberInfo.findOne { MemberInfo::id eq member.id.asString }

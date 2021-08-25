@@ -4,6 +4,7 @@ import dev.kord.common.annotation.KordPreview
 import dev.kord.common.entity.Permission
 import dev.kord.core.behavior.interaction.followUp
 import dev.kord.core.behavior.interaction.followUpEphemeral
+import dev.kord.core.entity.interaction.ChatInputCommandInteraction
 import dev.kord.core.entity.interaction.CommandInteraction
 import dev.kord.rest.builder.interaction.string
 import kotlinx.coroutines.launch
@@ -35,7 +36,7 @@ object BlacklistCommand : AdvancedCommand(
     }
 ) {
 
-    override suspend fun handle(interaction: CommandInteraction) {
+    override suspend fun handle(interaction: ChatInputCommandInteraction) {
         if(interaction.member().hasPermission(Permission.ManageMessages)) {
             val word = interaction.command.options["word"]?.value
             when(BlacklistAction.valueOf(interaction.command.options["action"]?.value.toString().uppercase())) {

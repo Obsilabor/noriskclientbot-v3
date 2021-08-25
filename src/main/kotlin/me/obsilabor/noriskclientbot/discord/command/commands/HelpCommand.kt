@@ -3,6 +3,7 @@ package me.obsilabor.noriskclientbot.discord.command.commands
 import dev.kord.common.Color
 import dev.kord.common.annotation.KordPreview
 import dev.kord.core.behavior.interaction.followUp
+import dev.kord.core.entity.interaction.ChatInputCommandInteraction
 import dev.kord.core.entity.interaction.CommandInteraction
 import dev.kord.rest.Image
 import dev.kord.rest.builder.interaction.string
@@ -25,7 +26,7 @@ object HelpCommand : AdvancedCommand(
         }
     }
 ) {
-    override suspend fun handle(interaction: CommandInteraction) {
+    override suspend fun handle(interaction: ChatInputCommandInteraction) {
         val input = interaction.command.options["category"]?.value
         if(input == null) {
             interaction.acknowledgePublic().followUp {

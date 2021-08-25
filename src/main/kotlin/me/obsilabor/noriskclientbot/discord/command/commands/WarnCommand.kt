@@ -5,6 +5,7 @@ import dev.kord.common.entity.Permission
 import dev.kord.core.behavior.ban
 import dev.kord.core.behavior.interaction.followUp
 import dev.kord.core.entity.Member
+import dev.kord.core.entity.interaction.ChatInputCommandInteraction
 import dev.kord.core.entity.interaction.CommandInteraction
 import dev.kord.rest.builder.interaction.string
 import dev.kord.rest.builder.interaction.user
@@ -39,7 +40,7 @@ object WarnCommand : AdvancedCommand(
         }
     }
 ) {
-    override suspend fun handle(interaction: CommandInteraction) {
+    override suspend fun handle(interaction: ChatInputCommandInteraction) {
         if(interaction.member().hasPermission(Permission.KickMembers)) {
             val member = interaction.command.options["member"]?.value as Member
             val memberId = member.id.asString

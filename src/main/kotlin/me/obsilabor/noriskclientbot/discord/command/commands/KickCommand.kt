@@ -5,6 +5,7 @@ import dev.kord.common.entity.Permission
 import dev.kord.core.behavior.ban
 import dev.kord.core.behavior.interaction.followUp
 import dev.kord.core.entity.Member
+import dev.kord.core.entity.interaction.ChatInputCommandInteraction
 import dev.kord.core.entity.interaction.CommandInteraction
 import dev.kord.rest.builder.interaction.string
 import dev.kord.rest.builder.interaction.user
@@ -30,7 +31,7 @@ object KickCommand : AdvancedCommand(
         }
     }
 ) {
-    override suspend fun handle(interaction: CommandInteraction) {
+    override suspend fun handle(interaction: ChatInputCommandInteraction) {
         if(interaction.member().hasPermission(Permission.BanMembers)) {
             val member = interaction.command.options["member"]?.value as Member
             val kickReason = interaction.command.options["reason"]?.value

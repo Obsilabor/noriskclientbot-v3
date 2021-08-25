@@ -5,6 +5,7 @@ import dev.kord.common.entity.Permission
 import dev.kord.common.entity.Snowflake
 import dev.kord.core.behavior.interaction.followUp
 import dev.kord.core.entity.Member
+import dev.kord.core.entity.interaction.ChatInputCommandInteraction
 import dev.kord.core.entity.interaction.CommandInteraction
 import dev.kord.rest.builder.interaction.user
 import me.obsilabor.noriskclientbot.NoRiskClientBot
@@ -26,7 +27,7 @@ object UnmuteCommand : AdvancedCommand(
         }
     }
 ) {
-    override suspend fun handle(interaction: CommandInteraction) {
+    override suspend fun handle(interaction: ChatInputCommandInteraction) {
         if(interaction.member().hasPermission(Permission.MuteMembers)) {
             val member = interaction.command.options["member"]?.value as Member
             interaction.acknowledgePublic().followUp {
