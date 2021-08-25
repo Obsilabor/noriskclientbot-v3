@@ -5,6 +5,7 @@ import dev.kord.common.entity.Permission
 import dev.kord.core.behavior.interaction.followUp
 import dev.kord.core.behavior.interaction.followUpEphemeral
 import dev.kord.core.entity.interaction.CommandInteraction
+import dev.kord.rest.builder.interaction.string
 import kotlinx.coroutines.launch
 import me.obsilabor.noriskclientbot.data.StringContainer
 import me.obsilabor.noriskclientbot.database.MongoDatabase
