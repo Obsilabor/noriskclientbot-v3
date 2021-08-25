@@ -21,7 +21,7 @@ class MessageListener : Listener {
     override fun register(client: Kord) {
         client.on<MessageCreateEvent> {
             for(blacklistedWord in MongoDatabase.blacklist.find()) {
-                if(this.message.content.lowercase().contains(blacklistedWord.lowercase())) {
+                if(this.message.content.lowercase().contains(blacklistedWord.value.lowercase())) {
                     this.message.getAuthorAsMember()?.let {
                         if(it.hasPermission(Permission.Administrator)) {
                             return@on
