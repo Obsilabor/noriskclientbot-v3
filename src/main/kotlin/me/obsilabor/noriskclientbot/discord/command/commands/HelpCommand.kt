@@ -61,7 +61,7 @@ object HelpCommand : AdvancedCommand(
                     thumbnail {
                         url = interaction.guild().getIconUrl(Image.Format.GIF)!!
                     }
-                    val yesEmoji = Emojis.whiteCheckMark
+                    val yesEmoji = Emojis.blackLargeSquare
                     val noEmoji = Emojis.regionalIndicatorX
                     var string = "${category.emoji} Commands of **${category.capitalizedName}**:\n__ __\n"
                     for(command in CommandManager.getAllCommands()) {
@@ -69,6 +69,7 @@ object HelpCommand : AdvancedCommand(
                             string+="${if(command is AdvancedCommand) "$yesEmoji" else "$noEmoji"} `/${command.name}` - ${command.description}\n"
                         }
                     }
+                    string+= "\n__ __\n> *Commands marked with $noEmoji are legacy commands and can be executed with `!`*"
                     description = string
                 }
             }
