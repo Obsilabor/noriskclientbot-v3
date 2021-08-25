@@ -55,16 +55,25 @@ class ButtonListener : Listener {
                             parentId = Snowflake(ConfigManager.noRiskClientBotConfig.supportCategoryId ?: "supportCategoryId is null!")
                         }
                         channel.editRolePermission(Snowflake(ConfigManager.noRiskClientBotConfig.everyoneRoleId ?: error("everyoneRoleId is null!"))) {
+                            allowed.minus(Permission.ReadMessageHistory)
+                            allowed.minus(Permission.SendMessages)
+                            allowed.minus(Permission.ViewChannel)
                             denied.plus(Permission.ReadMessageHistory)
                             denied.plus(Permission.SendMessages)
                             denied.plus(Permission.ViewChannel)
                         }
                         channel.editRolePermission(Snowflake(ConfigManager.noRiskClientBotConfig.helperRoleId ?: error("helperRoleId is null!"))) {
+                            denied.minus(Permission.ReadMessageHistory)
+                            denied.minus(Permission.SendMessages)
+                            denied.minus(Permission.ViewChannel)
                             allowed.plus(Permission.ReadMessageHistory)
                             allowed.plus(Permission.SendMessages)
                             allowed.plus(Permission.ViewChannel)
                         }
                         channel.editMemberPermission(interaction.member().id) {
+                            denied.minus(Permission.ReadMessageHistory)
+                            denied.minus(Permission.SendMessages)
+                            denied.minus(Permission.ViewChannel)
                             allowed.plus(Permission.ReadMessageHistory)
                             allowed.plus(Permission.SendMessages)
                             allowed.plus(Permission.ViewChannel)
@@ -84,7 +93,7 @@ class ButtonListener : Listener {
                         MongoDatabase.mongoScope.launch {
                             MongoDatabase.tickets.insertOne(Ticket(
                                 channel.id,
-                                "$id",
+                                "close_$id",
                                 interaction.member().id
                             ))
                         }
