@@ -5,6 +5,8 @@ import dev.kord.core.behavior.createChatInputCommand
 import dev.kord.core.entity.Guild
 import dev.kord.core.entity.interaction.CommandInteraction
 import dev.kord.core.event.guild.GuildCreateEvent
+import dev.kord.core.event.interaction.ChatInputCommandCreateEvent
+import dev.kord.core.event.interaction.ChatInputCommandInteractionCreateEvent
 import dev.kord.core.event.interaction.InteractionCreateEvent
 import dev.kord.core.on
 import kotlinx.coroutines.CoroutineScope
@@ -70,6 +72,31 @@ object CommandManager {
                 logger.info("${guild.name} is ready")
             }
         }
+        client.on<ChatInputCommandInteractionCreateEvent> {
+            kotlin.runCatching {
+                if(slashCommands.containsKey(interaction.command.rootName)) {
+                    slashCommands[(interaction as CommandInteraction).command.rootName]?.handle(interaction as CommandInteraction)
+                } else {
+                    otherCommands[(interaction as CommandInteraction).command.rootName]?.handle(interaction as CommandInteraction)
+                }
+            }.onFailure {
+                logger.uploadErrorAndCreateEmbed(
+                    Error(
+                        "${Branding.majorVersion} (${Branding.version})",
+                        Branding.brand,
+                        SystemInfo(
+                            OperatingSystem.running,
+                            Runtime.version().toString()
+                        ),
+                        Date().toString(),
+                        "Executing advanced command (Interaction: ${interaction})",
+                        it
+                    ),
+                    interaction.channel
+                )
+            }
+        }
+        /*
         client.on<InteractionCreateEvent> {
             if(interaction is CommandInteraction) {
                 val commandInteraction = interaction as CommandInteraction
@@ -97,6 +124,7 @@ object CommandManager {
                 }
             }
         }
+         */
     }
 
     suspend fun reloadCommands() {
