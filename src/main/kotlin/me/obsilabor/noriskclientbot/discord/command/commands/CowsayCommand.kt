@@ -3,6 +3,7 @@ package me.obsilabor.noriskclientbot.discord.command.commands
 import dev.kord.common.annotation.KordPreview
 import dev.kord.core.behavior.interaction.followUp
 import dev.kord.core.entity.interaction.CommandInteraction
+import dev.kord.rest.builder.interaction.string
 import me.obsilabor.noriskclientbot.discord.command.AdvancedCommand
 import me.obsilabor.noriskclientbot.discord.command.CommandCategory
 

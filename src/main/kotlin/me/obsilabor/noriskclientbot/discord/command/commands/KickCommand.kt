@@ -6,6 +6,8 @@ import dev.kord.core.behavior.ban
 import dev.kord.core.behavior.interaction.followUp
 import dev.kord.core.entity.Member
 import dev.kord.core.entity.interaction.CommandInteraction
+import dev.kord.rest.builder.interaction.string
+import dev.kord.rest.builder.interaction.user
 import me.obsilabor.noriskclientbot.NoRiskClientBot
 import me.obsilabor.noriskclientbot.discord.command.AdvancedCommand
 import me.obsilabor.noriskclientbot.discord.command.CommandCategory

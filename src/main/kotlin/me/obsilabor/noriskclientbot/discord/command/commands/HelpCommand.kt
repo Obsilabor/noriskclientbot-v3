@@ -1,11 +1,11 @@
 package me.obsilabor.noriskclientbot.discord.command.commands
 
-import com.gitlab.kordlib.kordx.emoji.Emojis
 import dev.kord.common.Color
 import dev.kord.common.annotation.KordPreview
 import dev.kord.core.behavior.interaction.followUp
 import dev.kord.core.entity.interaction.CommandInteraction
 import dev.kord.rest.Image
+import dev.kord.rest.builder.interaction.string
 import dev.kord.rest.builder.message.create.embed
 import me.obsilabor.noriskclientbot.discord.command.AdvancedCommand
 import me.obsilabor.noriskclientbot.discord.command.CommandCategory

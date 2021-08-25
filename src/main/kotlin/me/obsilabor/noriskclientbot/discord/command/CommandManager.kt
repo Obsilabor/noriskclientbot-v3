@@ -1,7 +1,7 @@
 package me.obsilabor.noriskclientbot.discord.command
 
 import dev.kord.common.annotation.KordPreview
-import dev.kord.core.behavior.createApplicationCommand
+import dev.kord.core.behavior.createChatInputCommand
 import dev.kord.core.entity.Guild
 import dev.kord.core.entity.interaction.CommandInteraction
 import dev.kord.core.event.guild.GuildCreateEvent
@@ -11,10 +11,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import me.obsilabor.noriskclientbot.NoRiskClientBot
 import me.obsilabor.noriskclientbot.NoRiskClientBot.logger
-import me.obsilabor.noriskclientbot.discord.command.CommandManager.cleanupCommands
-import me.obsilabor.noriskclientbot.discord.command.CommandManager.registerCommands
 import me.obsilabor.noriskclientbot.extensions.client
 import me.obsilabor.noriskclientbot.logging.error.Error
 import me.obsilabor.noriskclientbot.systems.OperatingSystem
@@ -116,11 +113,11 @@ object CommandManager {
     private suspend fun Guild.registerCommands() {
         slashCommands.forEach { commandEntry ->
             val command = commandEntry.value
-            createApplicationCommand(command.name, command.description) { command.builder.invoke(this) }
+            createChatInputCommand(command.name, command.description) { command.builder.invoke(this) }
         }
         otherCommands.forEach { commandEntry ->
             val command = commandEntry.value
-            createApplicationCommand(command.name, command.description)
+            createChatInputCommand(command.name, command.description)
         }
     }
 

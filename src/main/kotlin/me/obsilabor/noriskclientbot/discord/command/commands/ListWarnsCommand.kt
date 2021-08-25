@@ -7,6 +7,7 @@ import dev.kord.core.behavior.interaction.followUp
 import dev.kord.core.entity.Member
 import dev.kord.core.entity.interaction.CommandInteraction
 import dev.kord.rest.Image
+import dev.kord.rest.builder.interaction.user
 import dev.kord.rest.builder.message.create.embed
 import me.obsilabor.noriskclientbot.data.MemberInfo
 import me.obsilabor.noriskclientbot.database.MongoDatabase

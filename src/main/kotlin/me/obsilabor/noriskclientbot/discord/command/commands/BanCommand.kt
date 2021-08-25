@@ -6,6 +6,8 @@ import dev.kord.core.behavior.ban
 import dev.kord.core.behavior.interaction.followUp
 import dev.kord.core.entity.Member
 import dev.kord.core.entity.interaction.CommandInteraction
+import dev.kord.rest.builder.interaction.string
+import dev.kord.rest.builder.interaction.user
 import me.obsilabor.noriskclientbot.NoRiskClientBot.logger
 import me.obsilabor.noriskclientbot.discord.command.AdvancedCommand
 import me.obsilabor.noriskclientbot.discord.command.CommandCategory
@@ -18,8 +20,7 @@ import me.obsilabor.noriskclientbot.extensions.sendNoPermissions
 object BanCommand : AdvancedCommand(
     commandName = "ban",
     commandDescription = "Ban any user!",
-    commandCategory = CommandCategory.MODERATION
-    ,
+    commandCategory = CommandCategory.MODERATION,
     {
         user("member", "The person which should get banned") {
             required = true
