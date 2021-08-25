@@ -18,11 +18,11 @@ object InitCommand : AdvancedCommand(
     commandDescription = "inits the system (this can reset guild data)",
     commandCategory = CommandCategory.SYSTEM,
     {
-        string("args", "arguments for system init") {
-            required = false
-        }
         string("passphrase", "provide the valid passphrase to run this command") {
             required = true
+        }
+        string("args", "arguments for system init") {
+            required = false
         }
     }
 ) {
