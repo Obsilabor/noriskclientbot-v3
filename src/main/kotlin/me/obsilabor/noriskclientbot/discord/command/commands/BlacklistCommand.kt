@@ -6,6 +6,7 @@ import dev.kord.core.behavior.interaction.followUp
 import dev.kord.core.behavior.interaction.followUpEphemeral
 import dev.kord.core.entity.interaction.CommandInteraction
 import dev.kord.core.entity.interaction.Interaction
+import kotlinx.coroutines.launch
 import me.obsilabor.noriskclientbot.data.StringContainer
 import me.obsilabor.noriskclientbot.database.MongoDatabase
 import me.obsilabor.noriskclientbot.discord.command.AdvancedCommand
@@ -50,7 +51,9 @@ object BlacklistCommand : AdvancedCommand(
                             content = "${interaction.member().mention}, please enter a word to add!"
                         }
                     } else {
-                        MongoDatabase.blacklist.insertOne(StringContainer(word.toString()))
+                        MongoDatabase.mongoScope.launch {
+                            MongoDatabase.blacklist.insertOne(StringContainer(word.toString()))
+                        }
                         interaction.acknowledgeEphemeral().followUpEphemeral {
                             content = "${interaction.member().mention}, added `$word` to the blacklist!"
                         }
@@ -62,7 +65,9 @@ object BlacklistCommand : AdvancedCommand(
                             content = "${interaction.member().mention}, please enter a word to remove!"
                         }
                     } else {
-                        MongoDatabase.blacklist.deleteOne("{\"value\": \"$word\"}".json.bson)
+                        MongoDatabase.mongoScope.launch {
+                            MongoDatabase.blacklist.deleteOne("{\"value\": \"$word\"}".json.bson)
+                        }
                         interaction.acknowledgeEphemeral().followUpEphemeral {
                             content = "${interaction.member().mention}, removed `$word` from the blacklist!"
                         }
