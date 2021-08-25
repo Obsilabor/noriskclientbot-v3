@@ -20,16 +20,6 @@ class MessageListener : Listener {
 
     override fun register(client: Kord) {
         client.on<MessageCreateEvent> {
-            for(blacklistedWord in MongoDatabase.blacklist.find()) {
-                if(this.message.content.lowercase().contains(blacklistedWord.value.lowercase())) {
-                    this.message.getAuthorAsMember()?.let {
-                        if(it.hasPermission(Permission.Administrator)) {
-                            return@on
-                        }
-                    }
-                    this.message.delete()
-                }
-            }
             if(this.message.containsInvite()) {
                 this.message.delete()
             }
@@ -49,6 +39,16 @@ class MessageListener : Listener {
             }
             if(this.message.content.contains("xD")) {
                 this.message.addReaction(emojiGuild().getEmoji(Snowflake(ConfigManager.noRiskClientBotConfig.emoteServerConfig.twelveEmoteId ?: error("Twelve emoji id is null!"))))
+            }
+            for(blacklistedWord in MongoDatabase.blacklist.find()) {
+                if(this.message.content.lowercase().contains(blacklistedWord.value.lowercase())) {
+                    this.message.getAuthorAsMember()?.let {
+                        if(it.hasPermission(Permission.ManageMessages)) {
+                            return@on
+                        }
+                    }
+                    this.message.delete()
+                }
             }
         }
     }
