@@ -52,9 +52,9 @@ class ButtonListener : Listener {
                         parentId = Snowflake(ConfigManager.noRiskClientBotConfig.supportCategoryId ?: "supportCategoryId is null!")
                     }
                     channel.editMemberPermission(interaction.member().id) {
-                        allowed.plus(Permission.ReadMessageHistory)
-                        allowed.plus(Permission.SendMessages)
-                        allowed.plus(Permission.ViewChannel)
+                        allowed = allowed.plus(Permission.ReadMessageHistory)
+                        allowed = allowed.plus(Permission.SendMessages)
+                        allowed = allowed.plus(Permission.ViewChannel)
                     }
                     channel.createMessage {
                         content = "A staff member will help you soon, please describe your problem as detailed as possible ${interaction.member().mention}!"
