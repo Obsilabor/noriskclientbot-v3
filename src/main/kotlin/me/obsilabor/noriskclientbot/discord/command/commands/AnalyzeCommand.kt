@@ -48,9 +48,6 @@ object AnalyzeCommand : AdvancedCommand(
                 val response = httpClient.request<ToxicityResult>("https://commentanalyzer.googleapis.com/v1alpha1/comments:analyze?key=${ConfigManager.noRiskClientBotConfig.perspectiveApiKey ?: error("perspectiveApiKey is null!")}") {
                     contentType(ContentType.Application.Json)
                     body = "{comment: {text: \"$comment\"},languages: [\"en\"],requestedAttributes: {TOXICITY:{}} }"
-                    formData {
-
-                    }
                 }
                 println(response.attributeScores.TOXICITY.summaryScore?.value)
             }
