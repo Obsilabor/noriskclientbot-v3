@@ -1,5 +1,6 @@
 package me.obsilabor.noriskclientbot.discord.command.commands
 
+import au.com.origma.perspectiveapi.v1alpha1.models.AttributeType
 import dev.kord.common.Color
 import dev.kord.common.annotation.KordPreview
 import dev.kord.common.entity.Permission
@@ -15,6 +16,7 @@ import io.ktor.client.request.*
 import io.ktor.client.request.forms.*
 import io.ktor.http.*
 import kotlinx.coroutines.launch
+import me.obsilabor.noriskclientbot.NoRiskClientBot
 import me.obsilabor.noriskclientbot.config.ConfigManager
 import me.obsilabor.noriskclientbot.data.*
 import me.obsilabor.noriskclientbot.database.MongoDatabase
@@ -34,23 +36,9 @@ object AnalyzeCommand : AdvancedCommand(
     }
 ) {
 
-    private val httpClient = HttpClient(CIO) {
-        expectSuccess = false
-        install(JsonFeature) {
-            serializer = GsonSerializer()
-        }
-    }
-
     override suspend fun handle(interaction: ChatInputCommandInteraction) {
         if(interaction.member().hasPermission(Permission.Administrator)) {
             val comment = interaction.command.options["comment"]?.value.toString().replace("\"", "'")
-            MongoDatabase.mongoScope.launch {
-                val response = httpClient.request<ToxicityResult>("https://commentanalyzer.googleapis.com/v1alpha1/comments:analyze?key=${ConfigManager.noRiskClientBotConfig.perspectiveApiKey ?: error("perspectiveApiKey is null!")}") {
-                    contentType(ContentType.Application.Json)
-                    body = "{comment: {text: \"$comment\"},languages: [\"en\"],requestedAttributes: {TOXICITY:{}} }"
-                }
-                println(response.attributeScores.TOXICITY.summaryScore?.value)
-            }
             interaction.acknowledgePublic().followUp {
                 embed {
                     title = "Toxicity Report"
@@ -62,7 +50,7 @@ object AnalyzeCommand : AdvancedCommand(
                     thumbnail {
                         url = interaction.guild().getIconUrl(Image.Format.GIF)!!
                     }
-                    description = "Look in console"
+                    description = "This comment has a toxicity of `${NoRiskClientBot.perspectiveApi.analyze(comment).attributeScores[AttributeType.TOXICITY]?.summaryScore?.value}%`"
                 }
             }
         } else {

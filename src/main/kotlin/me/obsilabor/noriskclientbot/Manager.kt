@@ -1,5 +1,6 @@
 package me.obsilabor.noriskclientbot
 
+import au.com.origma.perspectiveapi.v1alpha1.PerspectiveAPI
 import com.gitlab.kordlib.kordx.emoji.Emojis
 import com.gitlab.kordlib.kordx.emoji.toReaction
 import dev.kord.common.Color
@@ -34,6 +35,8 @@ object NoRiskClientBot {
     lateinit var client: Kord; private set
 
     lateinit var nrcGuild: Guild
+
+    val perspectiveApi = PerspectiveAPI.create(ConfigManager.noRiskClientBotConfig.perspectiveApiKey ?: error("perspectiveApiKey is null!"))
 
     val logger = Logger(System.out)
 

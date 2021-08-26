@@ -10,6 +10,7 @@ version = "3.0.0"
 repositories {
     mavenCentral()
     jcenter() /* BlueUtils & kordx.emoji */
+    maven("https://jitpack.io")
     maven("https://oss.sonatype.org/content/repositories/snapshots")
 }
 
@@ -42,6 +43,9 @@ dependencies {
     // MongoDB
     implementation("org.litote.kmongo", "kmongo-core", "4.2.3")
     implementation("org.litote.kmongo", "kmongo-serialization-mapping", "4.2.3")
+
+    //PerspectiveAPI
+    implementation("com.github.origma:Google-PerspectiveAPI-Java-Client:0.0.5")
 }
 
 application {
