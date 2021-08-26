@@ -1,31 +1,26 @@
 package me.obsilabor.noriskclientbot.discord.listener
 
+import au.com.origma.perspectiveapi.v1alpha1.models.AttributeType
 import dev.kord.common.annotation.KordPreview
 import dev.kord.common.entity.Permission
 import dev.kord.common.entity.Snowflake
 import dev.kord.core.Kord
 import dev.kord.core.behavior.ban
-import dev.kord.core.behavior.channel.editRolePermission
-import dev.kord.core.behavior.createTextChannel
 import dev.kord.core.event.message.MessageCreateEvent
 import dev.kord.core.on
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
 import io.ktor.client.features.json.*
-import io.ktor.client.request.*
-import io.ktor.client.request.forms.*
-import io.ktor.http.*
-import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.collect
+import me.obsilabor.noriskclientbot.NoRiskClientBot
+import me.obsilabor.noriskclientbot.NoRiskClientBot.logger
 import me.obsilabor.noriskclientbot.config.ConfigManager
-import me.obsilabor.noriskclientbot.data.*
 import me.obsilabor.noriskclientbot.database.MongoDatabase
 import me.obsilabor.noriskclientbot.detection.InviteDetection.containsInvite
 import me.obsilabor.noriskclientbot.detection.MassPingDetection.getPingCount
 import me.obsilabor.noriskclientbot.detection.UrlDetection.containsUrl
 import me.obsilabor.noriskclientbot.extensions.emojiGuild
 import me.obsilabor.noriskclientbot.extensions.hasPermission
-import me.obsilabor.noriskclientbot.extensions.nrcGuild
 
 @KordPreview
 class MessageListener : Listener {
@@ -76,7 +71,14 @@ class MessageListener : Listener {
             }
             this.message.getAuthorAsMember()?.let {
                 if(!it.hasPermission(Permission.Administrator)) {
-                    //TODO implement perspective api
+                    val comment = message.content.replace("\"", "'")
+                    val toxicity = NoRiskClientBot.perspectiveApi.analyze(comment).attributeScores[AttributeType.TOXICITY]?.summaryScore?.value?.toDouble()
+                    if (toxicity != null) {
+                        if(toxicity >= 0.85) {
+                            message.delete("Toxicity: $toxicity")
+                            logger.info("I deleted a message from **${message.author?.username}#${message.author?.discriminator}** because it was toxic (Toxicity: $toxicity)")
+                        }
+                    }
                 }
             }
         }
