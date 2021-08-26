@@ -8,9 +8,6 @@ import dev.kord.core.Kord
 import dev.kord.core.behavior.ban
 import dev.kord.core.event.message.MessageCreateEvent
 import dev.kord.core.on
-import io.ktor.client.*
-import io.ktor.client.engine.cio.*
-import io.ktor.client.features.json.*
 import kotlinx.coroutines.flow.collect
 import me.obsilabor.noriskclientbot.NoRiskClientBot
 import me.obsilabor.noriskclientbot.NoRiskClientBot.logger
@@ -24,13 +21,6 @@ import me.obsilabor.noriskclientbot.extensions.hasPermission
 
 @KordPreview
 class MessageListener : Listener {
-
-    private val httpClient = HttpClient(CIO) {
-        expectSuccess = false
-        install(JsonFeature) {
-            serializer = GsonSerializer()
-        }
-    }
 
     override suspend fun register(client: Kord) {
         client.on<MessageCreateEvent> {
@@ -73,7 +63,7 @@ class MessageListener : Listener {
                 }
             }
             this.message.getAuthorAsMember()?.let {
-                if(!it.hasPermission(Permission.Administrator)) {
+                if(!it.hasPermission(Permission.ManageMessages)) {
                     val comment = message.content.replace("\"", "'")
                     val toxicity = NoRiskClientBot.perspectiveApi.analyze(comment).attributeScores[AttributeType.TOXICITY]?.summaryScore?.value?.toDouble()
                     if (toxicity != null) {
