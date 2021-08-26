@@ -40,18 +40,19 @@ object AnalyzeCommand : AdvancedCommand(
 
     override suspend fun handle(interaction: ChatInputCommandInteraction) {
         if(interaction.member().hasPermission(Permission.Administrator)) {
-            interaction.acknowledgePublic().followUp {
-                val comment = interaction.command.options["comment"]?.value.toString().replace("\"", "'")
-                val response = httpClient.request<ToxicityResult>("https://commentanalyzer.googleapis.com/v1alpha1/comments:analyze?key=${ConfigManager.noRiskClientBotConfig.perspectiveApiKey ?: error("perspectiveApiKey is null!")}") {
-                    contentType(ContentType.Application.Json)
-                    body = Request(
-                        RequestComponent(
-                            TextComponent(comment),
-                            arrayListOf("de"),
-                            AttributeScores(Toxicity(null, null))
-                        )
+            val comment = interaction.command.options["comment"]?.value.toString().replace("\"", "'")
+            val response = httpClient.request<ToxicityResult>("https://commentanalyzer.googleapis.com/v1alpha1/comments:analyze?key=${ConfigManager.noRiskClientBotConfig.perspectiveApiKey ?: error("perspectiveApiKey is null!")}") {
+                contentType(ContentType.Application.Json)
+                body = Request(
+                    RequestComponent(
+                        TextComponent(comment),
+                        arrayListOf("de"),
+                        AttributeScores(Toxicity(null, null))
                     )
-                }
+                )
+            }
+            println(response.attributeScores.TOXICITY.summaryScore?.value)
+            interaction.acknowledgePublic().followUp {
                 embed {
                     title = "Toxicity Report"
                     color = Color(0, 251, 255)
@@ -62,7 +63,6 @@ object AnalyzeCommand : AdvancedCommand(
                     thumbnail {
                         url = interaction.guild().getIconUrl(Image.Format.GIF)!!
                     }
-                    println(response.attributeScores.TOXICITY.summaryScore?.value)
                     description = "This comment has a toxicity value of `${response.attributeScores.TOXICITY.summaryScore?.value?.cut()}%`"
                 }
             }
