@@ -9,6 +9,8 @@ import dev.kord.core.behavior.channel.editRolePermission
 import dev.kord.core.behavior.createTextChannel
 import dev.kord.core.event.message.MessageCreateEvent
 import dev.kord.core.on
+import kotlinx.coroutines.InternalCoroutinesApi
+import kotlinx.coroutines.flow.collect
 import me.obsilabor.noriskclientbot.config.ConfigManager
 import me.obsilabor.noriskclientbot.database.MongoDatabase
 import me.obsilabor.noriskclientbot.detection.InviteDetection.containsInvite
@@ -42,6 +44,11 @@ class MessageListener : Listener {
             }
             if(this.message.content.contains("xD")) {
                 this.message.addReaction(emojiGuild().getEmoji(Snowflake(ConfigManager.noRiskClientBotConfig.emoteServerConfig.twelveEmoteId ?: error("Twelve emoji id is null!"))))
+            }
+            if ((this.message.content.lowercase().contains("lies") && this.message.content.lowercase().contains("pins")) || (this.message.content.lowercase().contains("read") && this.message.content.lowercase().contains("pins"))) {
+                this.message.channel.pinnedMessages.collect {
+                    this.message.channel.createMessage(it.content)
+                }
             }
             for(blacklistedWord in MongoDatabase.blacklist.find()) {
                 if(this.message.content.lowercase().contains(blacklistedWord.value.lowercase())) {

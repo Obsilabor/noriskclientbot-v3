@@ -6,17 +6,12 @@ import dev.kord.common.entity.*
 import dev.kord.core.Kord
 import dev.kord.core.behavior.channel.createMessage
 import dev.kord.core.behavior.channel.editMemberPermission
-import dev.kord.core.behavior.channel.editRolePermission
 import dev.kord.core.behavior.createTextChannel
 import dev.kord.core.behavior.interaction.followUpEphemeral
-import dev.kord.core.entity.channel.TextChannel
-import dev.kord.core.entity.interaction.ComponentInteraction
 import dev.kord.core.event.interaction.ButtonInteractionCreateEvent
-import dev.kord.core.event.interaction.InteractionCreateEvent
 import dev.kord.core.on
 import dev.kord.rest.builder.message.create.actionRow
 import kotlinx.coroutines.launch
-import kotlinx.serialization.json.JsonNull.content
 import me.obsilabor.noriskclientbot.config.ConfigManager
 import me.obsilabor.noriskclientbot.database.MongoDatabase
 import me.obsilabor.noriskclientbot.extensions.member
