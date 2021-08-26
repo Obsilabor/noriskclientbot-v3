@@ -12,6 +12,7 @@ import io.ktor.client.*
 import io.ktor.client.engine.cio.*
 import io.ktor.client.features.json.*
 import io.ktor.client.request.*
+import io.ktor.client.request.forms.*
 import io.ktor.http.*
 import kotlinx.coroutines.launch
 import me.obsilabor.noriskclientbot.config.ConfigManager
@@ -46,13 +47,10 @@ object AnalyzeCommand : AdvancedCommand(
             MongoDatabase.mongoScope.launch {
                 val response = httpClient.request<ToxicityResult>("https://commentanalyzer.googleapis.com/v1alpha1/comments:analyze?key=${ConfigManager.noRiskClientBotConfig.perspectiveApiKey ?: error("perspectiveApiKey is null!")}") {
                     contentType(ContentType.Application.Json)
-                    body = Request(
-                        RequestComponent(
-                            TextComponent(comment),
-                            arrayListOf("de"),
-                            AttributeScores(Toxicity(null, null))
-                        )
-                    )
+                    body = "{comment: {text: \"$comment\"},languages: [\"en\"],requestedAttributes: {TOXICITY:{}} }"
+                    formData {
+
+                    }
                 }
                 println(response.attributeScores.TOXICITY.summaryScore?.value)
             }
