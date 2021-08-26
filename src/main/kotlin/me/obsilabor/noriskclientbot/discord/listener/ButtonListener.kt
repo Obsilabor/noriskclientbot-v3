@@ -23,7 +23,7 @@ import org.litote.kmongo.findOne
 @KordPreview
 class ButtonListener : Listener {
 
-    override fun register(client: Kord) {
+    override suspend fun register(client: Kord) {
         client.on<ButtonInteractionCreateEvent> {
             val interaction = this.interaction
             for(ticket in MongoDatabase.tickets.find()) {

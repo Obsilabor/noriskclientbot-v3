@@ -16,7 +16,7 @@ import java.util.*
 @KordPreview
 class LegacyCommandListener : Listener {
 
-    override fun register(client: Kord) {
+    override suspend fun register(client: Kord) {
         client.on<MessageCreateEvent> {
             if(this.message.content.startsWith("!")) {
                 val otherCommands = CommandManager.otherCommands

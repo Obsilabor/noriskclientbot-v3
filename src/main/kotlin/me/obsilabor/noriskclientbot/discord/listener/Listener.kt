@@ -4,6 +4,6 @@ import dev.kord.core.Kord
 
 interface Listener {
 
-    abstract fun register(client: Kord)
+    abstract suspend fun register(client: Kord)
 
 }

@@ -2,10 +2,11 @@ package me.obsilabor.noriskclientbot.discord.command.commands
 
 import dev.kord.common.annotation.KordPreview
 import dev.kord.common.entity.Permission
+import dev.kord.core.behavior.interaction.followUp
 import dev.kord.core.entity.interaction.ChatInputCommandInteraction
-import dev.kord.core.entity.interaction.CommandInteraction
 import dev.kord.rest.builder.interaction.string
 import me.obsilabor.noriskclientbot.NoRiskClientBot
+import me.obsilabor.noriskclientbot.NoRiskClientBot.logger
 import me.obsilabor.noriskclientbot.config.ConfigManager
 import me.obsilabor.noriskclientbot.discord.command.AdvancedCommand
 import me.obsilabor.noriskclientbot.discord.command.CommandCategory
@@ -32,6 +33,10 @@ object InitCommand : AdvancedCommand(
             val passphrase = interaction.command.options["passphrase"]?.value.toString()
             if(passphrase == (ConfigManager.noRiskClientBotConfig.passphrase ?: error("Passphrase is null"))) {
                 NoRiskClientBot.init()
+                interaction.acknowledgePublic().followUp {
+                    content = "INIT OK"
+                }
+                logger.info("init was ok")
             } else {
                 interaction.channel.sendNoPermissions(interaction)
             }

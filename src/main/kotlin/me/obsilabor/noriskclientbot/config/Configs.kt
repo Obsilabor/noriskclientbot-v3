@@ -17,7 +17,8 @@ class NoRiskClientBotConfig(
     val faqChannelId: String? = null,
     val supportCategoryId: String? = null,
     val everyoneRoleId: String? = null,
-    val helperRoleId: String? = null
+    val helperRoleId: String? = null,
+    val perspectiveApiKey: String? = null
 )
 
 @Serializable

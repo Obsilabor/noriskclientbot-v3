@@ -9,9 +9,16 @@ import dev.kord.core.behavior.channel.editRolePermission
 import dev.kord.core.behavior.createTextChannel
 import dev.kord.core.event.message.MessageCreateEvent
 import dev.kord.core.on
+import io.ktor.client.*
+import io.ktor.client.engine.cio.*
+import io.ktor.client.features.json.*
+import io.ktor.client.request.*
+import io.ktor.client.request.forms.*
+import io.ktor.http.*
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import me.obsilabor.noriskclientbot.config.ConfigManager
+import me.obsilabor.noriskclientbot.data.*
 import me.obsilabor.noriskclientbot.database.MongoDatabase
 import me.obsilabor.noriskclientbot.detection.InviteDetection.containsInvite
 import me.obsilabor.noriskclientbot.detection.MassPingDetection.getPingCount
@@ -23,7 +30,14 @@ import me.obsilabor.noriskclientbot.extensions.nrcGuild
 @KordPreview
 class MessageListener : Listener {
 
-    override fun register(client: Kord) {
+    private val httpClient = HttpClient(CIO) {
+        expectSuccess = false
+        install(JsonFeature) {
+            serializer = GsonSerializer()
+        }
+    }
+
+    override suspend fun register(client: Kord) {
         client.on<MessageCreateEvent> {
             if(this.message.containsInvite()) {
                 this.message.delete()
@@ -58,6 +72,11 @@ class MessageListener : Listener {
                         }
                     }
                     this.message.delete()
+                }
+            }
+            this.message.getAuthorAsMember()?.let {
+                if(!it.hasPermission(Permission.Administrator)) {
+                    //TODO implement perspective api
                 }
             }
         }

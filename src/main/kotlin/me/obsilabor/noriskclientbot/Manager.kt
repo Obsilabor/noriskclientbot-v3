@@ -56,6 +56,7 @@ object NoRiskClientBot {
         HelpCommand.register()
         BlacklistCommand.register()
         InitCommand.register()
+        AnalyzeCommand.register()
         CommandManager.init()
         MessageListener().register(client)
         ButtonListener().register(client)
@@ -95,6 +96,7 @@ object NoRiskClientBot {
             supportCategoryId: id
             everyoneRoleId: id
             helperRoleId: id
+            perspectiveApiKey: key
         """.trimIndent())
         error("Configure the application before running it")
     }
