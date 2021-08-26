@@ -17,10 +17,7 @@ import me.obsilabor.noriskclientbot.config.ConfigManager
 import me.obsilabor.noriskclientbot.data.*
 import me.obsilabor.noriskclientbot.discord.command.AdvancedCommand
 import me.obsilabor.noriskclientbot.discord.command.CommandCategory
-import me.obsilabor.noriskclientbot.extensions.guild
-import me.obsilabor.noriskclientbot.extensions.hasPermission
-import me.obsilabor.noriskclientbot.extensions.member
-import me.obsilabor.noriskclientbot.extensions.sendNoPermissions
+import me.obsilabor.noriskclientbot.extensions.*
 
 @KordPreview
 object AnalyzeCommand : AdvancedCommand(
@@ -65,7 +62,8 @@ object AnalyzeCommand : AdvancedCommand(
                     thumbnail {
                         url = interaction.guild().getIconUrl(Image.Format.GIF)!!
                     }
-                    description = "This comment has a toxicity value of `${response.attributeScores.TOXICITY.summaryScore?.value}%`"
+                    println(response.attributeScores.TOXICITY.summaryScore?.value)
+                    description = "This comment has a toxicity value of `${response.attributeScores.TOXICITY.summaryScore?.value?.cut()}%`"
                 }
             }
         } else {
