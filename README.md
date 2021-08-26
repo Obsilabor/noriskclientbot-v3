@@ -36,4 +36,3 @@ If you're done with your changes, just open a pull request and request a review.
 - Automatic help / tags
 - Cape Stealer (i have to wait until backend is online again)
 - Giveaway system
-- Anti toxic (perspectiveapi maybe)

@@ -34,6 +34,9 @@ class MessageListener : Listener {
 
     override suspend fun register(client: Kord) {
         client.on<MessageCreateEvent> {
+            if(this.message.author?.isBot == true) {
+                return@on
+            }
             if(this.message.containsInvite()) {
                 this.message.delete()
             }
