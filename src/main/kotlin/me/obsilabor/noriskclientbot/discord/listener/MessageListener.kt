@@ -18,6 +18,7 @@ import me.obsilabor.noriskclientbot.detection.MassPingDetection.getPingCount
 import me.obsilabor.noriskclientbot.detection.UrlDetection.containsUrl
 import me.obsilabor.noriskclientbot.extensions.emojiGuild
 import me.obsilabor.noriskclientbot.extensions.hasPermission
+import me.obsilabor.noriskclientbot.extensions.warn
 
 @KordPreview
 class MessageListener : Listener {
@@ -65,11 +66,17 @@ class MessageListener : Listener {
             this.message.getAuthorAsMember()?.let {
                 if(!it.hasPermission(Permission.ManageMessages)) {
                     val comment = message.content.replace("\"", "'")
-                    val toxicity = NoRiskClientBot.perspectiveApi.analyze(comment).attributeScores[AttributeType.TOXICITY]?.summaryScore?.value?.toDouble()
+                    val response = NoRiskClientBot.perspectiveApi.analyze(comment) ?: return@on
+                    val toxicity = response.attributeScores[AttributeType.TOXICITY]?.summaryScore?.value
                     if (toxicity != null) {
-                        if(toxicity >= 0.85) {
+                        if(toxicity.toDouble() >= 0.89) {
                             message.delete("Toxicity: $toxicity")
                             logger.info("I deleted a message from **${message.author?.username}#${message.author?.discriminator}** because it was toxic (Toxicity: $toxicity)")
+                        }
+                        if(toxicity.toDouble() >= 0.99) {
+                            message.delete("Toxicity: $toxicity")
+                            logger.info("I deleted a message from **${message.author?.username}#${message.author?.discriminator}** because it was toxic (Toxicity: $toxicity) and warned him/her")
+                            member?.warn("Toxicity value over 99%")
                         }
                     }
                 }
