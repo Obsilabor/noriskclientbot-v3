@@ -8,7 +8,6 @@ import dev.kord.rest.Image
 import me.obsilabor.noriskclientbot.discord.command.CommandCategory
 import me.obsilabor.noriskclientbot.discord.command.LegacyInteraction
 import me.obsilabor.noriskclientbot.discord.command.SimpleCommand
-import me.obsilabor.noriskclientbot.extensions.guild
 
 @KordPreview
 object DownloadCommand : SimpleCommand(
@@ -22,7 +21,7 @@ object DownloadCommand : SimpleCommand(
             color = Color(0, 251, 255)
             footer {
                 icon = interaction.guild?.getIconUrl(Image.Format.GIF)!!
-                text = interaction.guild.name
+                text = "${interaction.guild.name} - Thanks @Skill#1337 for english translation :)"
             }
             thumbnail {
                 url = interaction.guild?.getIconUrl(Image.Format.GIF)!!
@@ -50,7 +49,9 @@ object DownloadCommand : SimpleCommand(
             }
              */
             description = """
-                **NORISK CLIENT ENDE**
+                **NORISK CLIENT UNSUPPORTED**
+                   
+                ${Emojis.flagDe} **DEUTSCH // GERMAN**
 
                 Vielleicht habt ihr es mitbekommen oder auch nicht, aber ich bin nun **Badlion Client Partner** ${Emojis.handshake}
 
@@ -63,6 +64,21 @@ object DownloadCommand : SimpleCommand(
                 https://store.badlion.net/shop/NoRisk
 
                 He She It Quit.
+                
+                ${Emojis.flagGb} **ENGLISH**
+                
+                Maybe you already know about this, but as of right now I'm a **Badlion client partner**. ${Emojis.handshake}
+
+                That's why the client won't be supported nor updated in the time I'm a Badlion client partner **(6-12 months)**. ${Emojis.sob}
+
+                However, big thanks anyway to anyone that tried out the client. ${Emojis.heart}
+
+                If you want to get my Badlion cape, you can do so with the **code** **"norisk"** to save **10%**.
+
+                https://store.badlion.net/shop/NoRisk
+
+                He She It Quit. 
+
             """.trimIndent()
         }
     }
