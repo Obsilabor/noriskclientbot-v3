@@ -60,6 +60,7 @@ object NoRiskClientBot {
         BlacklistCommand.register()
         InitCommand.register()
         AnalyzeCommand.register()
+        WhyOfflineCommand.register()
         CommandManager.init()
         MessageListener().register(client)
         ButtonListener().register(client)
